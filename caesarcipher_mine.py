@@ -5,15 +5,31 @@ alphabet = [l for l in 'abcdefghijklmnopqrstuvwxyz']
 
 def encrypt(text: str, key: int) -> str:
     """Returns encrypted string with letters shifted over by a key"""
-    pass
+    encrypted_text = ""
+    for letter in text:
+        position = alphabet.index(letter)
+        encrypted_text += alphabet[(position + key) % len(alphabet)]
+    return encrypted_text
 
 def decrypt(text: str, key: int) -> str:
     """Return decrypted string based on a key"""
-    pass
+    decrypted_text = ""
+    for letter in text:
+        position = alphabet.index(letter)
+        decrypted_text += alphabet[(position - key) % len(alphabet)]
+    return decrypted_text
 
 def control_key(key: int) -> bool:
     """Checks whether the given input is an integer"""
-    pass
+    try:
+        key = int(key)
+    except ValueError:
+        return False
+    else:
+        if key in range(0, 25):
+            return True
+        else:
+            return False
 
 def main():
     """Main program loop"""
@@ -35,6 +51,7 @@ encrypted into D, and so on. Works with english alphabet only.
     while True:
         key = input(" > ")
         if control_key(key):
+            key = int(key)
             break
         print("Please enter an integer in the range from 0 to 25 ")
 
@@ -43,11 +60,13 @@ encrypted into D, and so on. Works with english alphabet only.
     text = input(" > ")
 
     if respons.lower() == 'e':
-        encrypt(text, key)
+        result = encrypt(text, key)
     elif respons.lower() == 'd':
-        decrypt(text, key)
+        result = decrypt(text, key)
 
+    print(result)
 
+    
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ View this code at https://nostarch.com/big-book-small-python-projects
 Tags: short, beginner, cryptography, math"""
 
 try:
-    import pyperclip  # pyperclip copies text to the clipboard.
+    import pyperclip  # pyperclip copies text to the clipboard. # type: ignore
 except ImportError:
     pass  # If pyperclip is not installed, do nothing. It's no big deal.
 
