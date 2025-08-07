@@ -10,7 +10,8 @@ print('Caesar Cipher Hacker, by Al Sweigart al@inventwithpython.com')
 
 # Let the user specify the message to hack:
 print('Enter the encrypted Caesar cipher message to hack.')
-message = input('> ')
+message = input('> ') # Lukas: add .upper() to work
+
 
 # Every possible symbol that can be encrypted/decrypted:
 # (This must match the SYMBOLS used when encrypting the message.)
