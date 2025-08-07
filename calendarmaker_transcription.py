@@ -47,7 +47,14 @@ def getCelendarFor(year: str, month: str) -> str:
 
     # add the days of the week labels to the calendar
     # try changing tgis to abbreviations: Po, Út,... 
-    calText += '...Pondělí....Úterý......Středa.....Čtvrtek....Pátek......Sobota.....Neděle...\n'
+    dayLabel = ''
+    for day in DAYS:
+        dayLabel += '..'
+        # dayLabel += day[:2].ljust(9, '.')  # zkratky dní
+        dayLabel += day.ljust(9, '.') 
+        
+    dayLabel += '.\n'
+    calText += dayLabel
 
     # The horizontal string that separates weeks:
     weekSeparator = ('+----------' * 7) + '+\n'
