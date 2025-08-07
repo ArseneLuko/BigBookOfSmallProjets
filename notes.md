@@ -23,3 +23,12 @@ The dealer stops hitting at 17.
     (check if 21 or over)
 . ask for hit or stand or double down 
     . hit > take another card and ask again
+
+# calendar maker
+## string jako řádek - popis formátu
+- znak ```|``` na začátek
+- 12 mezer
+- znak ```|``` na konec
+
+
+```|            |            |            |            |            |            |            |```
