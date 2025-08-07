@@ -3,7 +3,7 @@ The script encrypt (or decrypt) text by shifting letters over by a key number. F
 
 # TODO: opravit, že je možné rozšířit nebo zmenšit vzor se znaky (abecedu)
 
-alphabet = [l for l in 'abcdefghijklmnopqrstuvwxyz']
+alphabet = [l for l in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ']
 
 def encrypt(text: str, key: int) -> str:
     """Returns encrypted string with letters shifted over by a key"""
@@ -24,7 +24,7 @@ def decrypt(text: str, key: int) -> str:
             position = alphabet.index(letter)
             decrypted_text += alphabet[(position - key) % len(alphabet)]
         else:
-            encrypted_text += letter
+            decrypted_text += letter
     return decrypted_text
 
 def control_key(key: int) -> bool:
@@ -65,7 +65,7 @@ encrypted into D, and so on. Works with english alphabet only.
 
 
     print("Enter the text to work with:")
-    text = input(" > ")
+    text = input(" > ").upper()
 
     if respons.lower() == 'e':
         result = encrypt(text, key)
