@@ -25,10 +25,13 @@ The dealer stops hitting at 17.
     . hit > take another card and ask again
 
 # calendar maker
-## string jako řádek - popis formátu
-- znak ```|``` na začátek
-- 12 mezer
-- znak ```|``` na konec
+## layout, popis formátu
+základní layout:
+výška buňky (layout + 1)
+šířka buňky (layout * 3)
 
-
-```|            |            |            |            |            |            |            |```
+# collatz
+- přepsat původní program
+- napsat vlastní řešení
+- přidat grafické zobrazení (hodnota/korky)
+- vypsat počet kroků pro čísla do 1_000

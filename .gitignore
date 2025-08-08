@@ -3,3 +3,4 @@ big_book_of_small_projetcs.code-workspace
 steps.png
 .vscode/settings.json
 __pycache__/
+collatz/
