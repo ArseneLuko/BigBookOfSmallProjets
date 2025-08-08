@@ -6,9 +6,14 @@ GitHub: https://github.com/ArseneLuko
 """
 
 import os
+import sys
 import time
 
-def get_number() -> int:
+n = 100
+CHOICES = ('volby', 'help', 'man', 'v', '?')
+QUITS = ('quit', 'konec', 'k', 'q', 'x')
+
+def get_input() -> int:
     """Vyžádá vstup od uživatele a vrátí jej jako celé číslo větší než nula."""
 
     print('Zadej číslo pro které chceš generovat Collatzovu sekvenci:')
@@ -25,7 +30,7 @@ def get_number() -> int:
     return int(response)
 
 def get_sequence(starting_number: int) -> list:
-    """Vygeneruje Collatzovu sekvenci pro zadané číslo."""
+    """Vygeneruje Collatzovu sekvenci pro zadané číslo a vrátí jako list"""
     n = starting_number
     sequence = [n]
     while n != 1:
@@ -45,15 +50,42 @@ def print_sequence(sequence: list) -> None:
         time.sleep(0.08)
     print()
 
-def main():
-    os.system('clear')
-    print('Collatz sequence generátor'.center(52))
-    print('-' * 52)
-    starting_number = get_number()
+def one_sequence() -> None:
+    """Vygeneruje seqenci pro zadané číslo a zobrazí"""
+    starting_number = get_input()
     print(f'Collatz sequence pro číslo: {starting_number}')
     sequence = get_sequence(starting_number)
     print_sequence(sequence)
 
+def print_choices(starting_number: int='n/a') -> None:
+    print('Collatz sequence generátor'.center(52))
+    print('-' * 52)
+    print(f'  1 | Vygeneruje sekvenci pro zadané číslo')
+    print(f'  2 | Zobrazit graficky kroky sekvence pro číslo {starting_number}')
+    print(f'  3 | Vypsat počet kroků pro prvních {n} čísel')
+    print(f'  k | Ukončí skript')
+
+def main():
+    starting_number = 'n/a'
+    print_choices(starting_number)
+    
+    while True:
+        choice = input(' > ')
+        if choice.isdecimal() and int(choice) in range(1, 4):
+            if int(choice) == 1:
+                starting_number = one_sequence()
+            if int(choice) == 2:
+                print('volba 2')
+            if int(choice) == 3:
+                print('volba 3')
+        elif choice in (CHOICES):
+            print_choices(starting_number)
+        elif choice in (QUITS):
+            sys.exit()
+        else:
+            print('Vyberte jednu z možností výše, zadejte číslo volby.')
+            print('Pro vypsání možností zadejte: \'?\'')
 
 if __name__ == '__main__':
+    os.system('clear')
     main()
