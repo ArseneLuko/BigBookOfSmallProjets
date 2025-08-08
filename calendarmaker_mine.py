@@ -10,18 +10,23 @@ import datetime
 DAYS = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek', 'Sobota', 'Neděle']
 MONTHS = ['Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen',
           'Červenec', 'Srpen', 'Září', 'Říjen', 'Listopad', 'Prosinec']
+layout = 3
 
 def get_calendar(year: int, month: int) -> str:
     """Vrátí textový řetězec zobrazující vybraný měsíc a rok jako kalendář.
     """
     calendar_text = ''
-    blank_row = 7 * ('|' + 12 * ' ') + '|\n'
-    split_row = 7 * ('+' + 12 * '-') + '+\n'
-    calendar_text += (MONTHS[month - 1] + ' ' + str(year)).center(92) + '\n'
+    blank_row = 7 * ('|' + (layout * 3) * ' ') + '|\n'
+    split_row = 7 * ('+' + (layout * 3) * '-') + '+\n'
+    calendar_text += (MONTHS[month - 1] + ' ' + str(year)).center(layout * 23) + '\n'
 
     day_label_row = ''
     for day in DAYS:
-        day_label_row += '   ' + day.ljust(10, ' ')
+        if layout == 1:
+            day = day[0]
+        elif layout == 2:
+            day = day[:2]
+        day_label_row += '   ' + day.ljust((layout * 3) - 2, ' ')
     day_label_row += ' \n'
     calendar_text += day_label_row
 
@@ -38,13 +43,13 @@ def get_calendar(year: int, month: int) -> str:
         day_number_row = ''
         for _ in DAYS:
             day_number = str(currentDate.day).rjust(2)
-            day_number_row += '| ' + day_number + 9 * ' '
+            day_number_row += '| ' + day_number + ((layout * 3) - 3) * ' '
             currentDate += datetime.timedelta(days=1)
         day_number_row += '|\n'
 
         calendar_text += day_number_row
 
-        for _ in range(3):
+        for _ in range(layout - 1):
             calendar_text += blank_row
 
         if currentDate.month != month:
@@ -80,10 +85,24 @@ def get_month(year: int) -> int:
         else:
             print('Zadejte měsíc jako celé číslo, např.: "8" pro "Srpen"')
 
+def get_layout() -> int:
+    """Získá od uživatele velikost kalendáře a ověří, že vstup je číslo v rozmezí 1 - 7.
+    """
+
+    print(f'Zadejte velikost kalendáře v rozmezí 1 až 7:')
+    
+    while True:
+        layout = input(' > ')
+        if layout.isdecimal() and 0 < int(layout) <= 7:
+            return int(layout)
+        else:
+            print('Zadejte velikost jako celé číslo v rozmezí od 1 do 7."')
         
 if __name__ == '__main__':
     year = get_year()
     month = get_month(year)
+    layout = get_layout()
+
     calendar = get_calendar(year, month)
 
     print(calendar)
