@@ -13,14 +13,14 @@ n = 100
 CHOICES = ('volby', 'help', 'man', 'v', '?')
 QUITS = ('quit', 'konec', 'k', 'q', 'x')
 
+
 def get_input() -> int:
     """Vyžádá vstup od uživatele a vrátí jej jako celé číslo větší než nula."""
 
     print('Zadej číslo pro které chceš generovat Collatzovu sekvenci:')
-    while True:
-        
-        response = input(' > ')
 
+    while True:
+        response = input(' > ')
         if not response.isdecimal() or response == '0':
             print('Zadej celé číslo větší než 0.')
             continue
@@ -29,10 +29,12 @@ def get_input() -> int:
 
     return int(response)
 
+
 def get_sequence(starting_number: int) -> list:
     """Vygeneruje Collatzovu sekvenci pro zadané číslo a vrátí jako list"""
     n = starting_number
     sequence = [n]
+    
     while n != 1:
         if n % 2 == 0: # sudé, even, cho
             n = n // 2
@@ -43,19 +45,19 @@ def get_sequence(starting_number: int) -> list:
     return sequence
     # return [3, 10, 5, 16, 8, 4, 2, 1] # testing line
 
-def print_sequence(sequence: list) -> None:
-    print(sequence[0], end='')
-    for n in sequence[1:]:
-        print(f', {n}', end='', flush=True)
-        time.sleep(0.08)
-    print()
-
 def one_sequence() -> None:
     """Vygeneruje seqenci pro zadané číslo a zobrazí"""
     starting_number = get_input()
     print(f'Collatz sequence pro číslo: {starting_number}')
     sequence = get_sequence(starting_number)
     print_sequence(sequence)
+
+def print_sequence(sequence: list) -> None:
+    print(sequence[0], end='')
+    for n in sequence[1:]:
+        print(f', {n}', end='', flush=True)
+        time.sleep(0.08)
+    print()
 
 def print_choices(starting_number: int='n/a') -> None:
     print('Collatz sequence generátor'.center(52))
