@@ -6,6 +6,11 @@ Tags: large, beginner, game, two-player / Lukas adaptation"""
 
 import random
 
+score = {
+    'p1': 0,
+    'p2': 0
+}
+
 print('''Carrot in a Box, by Al Sweigart al@inventwithpython.com
       
 This is a bluffing game for two human players. Each player has a box.
@@ -25,7 +30,8 @@ p1Name = input('Human player 1, enter your name: ')
 p2Name = input('Human player 2, enter your name: ')
 playerNames = p1Name[:11].center(11) + '    ' + p2Name[:11].center(11)
 
-print('''HERE ARE TWO BOXES
+while True:
+    print('''HERE ARE TWO BOXES
   __________     __________
  /         /|   /         /|
 +---------+ |  +---------+ |
@@ -33,26 +39,26 @@ print('''HERE ARE TWO BOXES
 |   BOX   | /  |   BOX   | /
 +---------+/   +---------+/''')
 
-print()
-print(playerNames)
-print()
-print(p1Name + ', you have a RED box in front of you.')
-print(p2Name + ', you have a GOLD box in front of you.')
-print()
-print(p1Name + ', you will get to look into your box.')
-print(p2Name.upper() + ', close your eyes and don\'t look!!!')
-input('When ' + p2Name + ' has closed their eyes, press Enter...')
-print()
+    print()
+    print(playerNames)
+    print()
+    print(p1Name + ', you have a RED box in front of you.')
+    print(p2Name + ', you have a GOLD box in front of you.')
+    print()
+    print(p1Name + ', you will get to look into your box.')
+    print(p2Name.upper() + ', close your eyes and don\'t look!!!')
+    input('When ' + p2Name + ' has closed their eyes, press Enter...')
+    print()
 
-print(p1Name + ' here is the inside of your box:')
+    print(p1Name + ' here is the inside of your box:')
 
-if random.randint(1, 2) == 1:
-    carrotInFirstBox = True
-else:
-    carrotInFirstBox = False
+    if random.randint(1, 2) == 1:
+        carrotInFirstBox = True
+    else:
+        carrotInFirstBox = False
 
-if carrotInFirstBox:
-    print('''
+    if carrotInFirstBox:
+        print('''
    ___VV____
   |   VV    |
   |   VV    |
@@ -62,10 +68,10 @@ if carrotInFirstBox:
 |   RED   | |  |   GOLD  | |
 |   BOX   | /  |   BOX   | /
 +---------+/   +---------+/
- (carrot!)''')
-    print(playerNames)
-else:
-    print('''
+(carrot!)''')
+        print(playerNames)
+    else:
+        print('''
    _________
   |         |
   |         |
@@ -76,51 +82,51 @@ else:
 |   BOX   | /  |   BOX   | /
 +---------+/   +---------+/
 (no carrot!)''')
-    print(playerNames)
+        print(playerNames)
 
-input('Press Enter to continue...')
+    input('Press Enter to continue...')
 
-print('\n' * 100)
-print(f'{p1Name}, tell {p2Name} to open their eyes.')
-input('Press Enter to continue...')
+    print('\n' * 100)
+    print(f'{p1Name}, tell {p2Name} to open their eyes.')
+    input('Press Enter to continue...')
 
-print()
-print(f'{p1Name}, say one of the following senteces to {p2Name}.')
-print('  1) There is a carrot in my box.')
-print('  2) There is not a carrot in my box.')
-print()
-input('Press Enter to continue...')
+    print()
+    print(f'{p1Name}, say one of the following senteces to {p2Name}.')
+    print('  1) There is a carrot in my box.')
+    print('  2) There is not a carrot in my box.')
+    print()
+    input('Press Enter to continue...')
 
-print()
-print(f'{p2Name}, do you want to swap boxes with {p1Name}? (Y)es / (N)o')
-while True:
-    response = input(' > ').upper()
-    if not (response.startswith('Y') or response.startswith('N')):
-        print(f'{p2Name}, please enter "YES" or "NO".')
-    else:
-        break
+    print()
+    print(f'{p2Name}, do you want to swap boxes with {p1Name}? (Y)es / (N)o')
+    while True:
+        response = input(' > ').upper()
+        if not (response.startswith('Y') or response.startswith('N')):
+            print(f'{p2Name}, please enter "YES" or "NO".')
+        else:
+            break
 
-firstBox = 'RED ' # Note the space after 'D'
-secondBox = 'GOLD'
+    firstBox = 'RED ' # Note the space after 'D'
+    secondBox = 'GOLD'
 
-if response.startswith('Y'):
-    carrotInFirstBox = not carrotInFirstBox
-    firstBox, secondBox = secondBox, firstBox
+    if response.startswith('Y'):
+        carrotInFirstBox = not carrotInFirstBox
+        firstBox, secondBox = secondBox, firstBox
 
-print(f'''HERE ARE THE TWO BOXES:
-  __________     __________
+    print(f'''HERE ARE THE TWO BOXES:
+   _________     __________
  /         /|   /         /|
 +---------+ |  +---------+ |
 |   {firstBox}  | |  |   {secondBox}  | |
 |   BOX   | /  |   BOX   | /
 +---------+/   +---------+/''')
-print(playerNames)
+    print(playerNames)
 
-input('Press Enter to reveal the winner...')
-print()
+    input('Press Enter to reveal the winner...')
+    print()
 
-if carrotInFirstBox:
-    print(f'''
+    if carrotInFirstBox:
+        print(f'''
    ___VV____      _________
   |   VV    |    |         |
   |   VV    |    |         |
@@ -131,8 +137,8 @@ if carrotInFirstBox:
 |   BOX   | /  |   BOX   | /
 +---------+/   +---------+/''')
 
-else:
-    print(f'''
+    else:
+        print(f'''
    _________      ___VV____
   |         |    |   VV    |
   |         |    |   VV    |
@@ -142,13 +148,32 @@ else:
 |   {firstBox}  | |  |   {secondBox}  | |
 |   BOX   | /  |   BOX   | /
 +---------+/   +---------+/''')
+        
+    print(playerNames)
+
+    # This modification made possible through the carrotInFirstBox variable
+    if carrotInFirstBox:
+        score['p1'] += 1
+        print(f'{p1Name} is the winner')
+    else:
+        score['p2'] += 1
+        print(f'{p2Name} is the winner')
+        
+    print(f'''The score is:
+{p1Name[:11].rjust(11)} : {score["p1"]}
+{p2Name[:11].rjust(11)} : {score["p2"]}''')
     
-print(playerNames)
+    print('Do you want to play one more game? (Y)es')
+    if input(' > ').upper().startswith('Y'):
+        continue
+    else:
+        break
 
-# This modification made possible through the carrotInFirstBox variable
-if carrotInFirstBox:
-    print(f'{p1Name} is the winner')
+
+if score['p1'] > score['p2']:
+    print(f'{p1Name} is total winner with {score["p1"]} points.')
+elif score['p1'] < score['p2']:
+    print(f'{p2Name} is total winner with {score["p2"]} points.')
 else:
-    print(f'{p2Name} is the winner')
-
-    print('Thanks for playing!')
+    print(f'No one wins, you both have {score["p2"]} points.')
+print('Thanks for playing!')
