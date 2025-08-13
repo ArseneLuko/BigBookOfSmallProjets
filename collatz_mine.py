@@ -72,6 +72,7 @@ def main():
     print_choices(starting_number)
     
     while True:
+        print('Vyberte volbu z menu')
         choice = input(' > ')
         if choice.isdecimal() and int(choice) in range(1, 4):
             if int(choice) == 1:
