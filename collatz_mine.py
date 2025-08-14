@@ -9,7 +9,7 @@ import os
 import sys
 import time
 
-n = 100
+n = 1000000
 CHOICES = ('volby', 'help', 'man', 'v', '?')
 QUITS = ('quit', 'konec', 'k', 'q', 'x')
 
@@ -17,12 +17,12 @@ QUITS = ('quit', 'konec', 'k', 'q', 'x')
 def get_input() -> int:
     """Vyžádá vstup od uživatele a vrátí jej jako celé číslo větší než nula."""
 
-    print('Zadej číslo pro které chceš generovat Collatzovu sekvenci:')
+    print('Zadejte číslo pro které chcete generovat sekvenci:')
 
     while True:
         response = input(' > ')
         if not response.isdecimal() or response == '0':
-            print('Zadej celé číslo větší než 0.')
+            print('Zadejte celé číslo větší než 0.')
             continue
         else:
             break
@@ -45,12 +45,36 @@ def get_sequence(starting_number: int) -> list:
     return sequence
     # return [3, 10, 5, 16, 8, 4, 2, 1] # testing line
 
+
 def one_sequence() -> None:
     """Vygeneruje seqenci pro zadané číslo a zobrazí"""
+
     starting_number = get_input()
+
     print(f'Collatz sequence pro číslo: {starting_number}')
     sequence = get_sequence(starting_number)
+
     print_sequence(sequence)
+    print(f'Délka sekvence: {len(sequence)}')
+
+
+def count_steps(amount: int) -> None:
+    """Vytvoří sekvenci pro prvních n-čísel (implicitně 100) a vypíše délku sekvencí"""
+
+    steps = {
+        'maximum': 0,
+        'number': 0
+    }
+
+    for step in range(1, amount + 1):
+        sequence = get_sequence(step)
+        print(f'Počet kroků pro číslo {step} je {len(sequence)}')
+        if len(sequence) > steps['maximum']:
+            steps['maximum'] = len(sequence)
+            steps['number'] = step
+
+    print(f'Nejdelší sekvenci v prvních {amount} číslech má číslo {steps['number']}. Jeho sekvence má {steps['maximum']} kroků.')
+
 
 def print_sequence(sequence: list) -> None:
     print(sequence[0], end='')
@@ -59,19 +83,22 @@ def print_sequence(sequence: list) -> None:
         time.sleep(0.08)
     print()
 
-def print_choices(starting_number: int='n/a') -> None:
+
+def print_choices(starting_number: int) -> None:
     print('Collatz sequence generátor'.center(52))
     print('-' * 52)
     print(f'  1 | Vygeneruje sekvenci pro zadané číslo')
     print(f'  2 | Zobrazit graficky kroky sekvence pro číslo {starting_number}')
-    print(f'  3 | Vypsat počet kroků pro prvních {n} čísel')
+    print(f'  3 | Vypsat délku sekvencí pro prvních {n} čísel')
     print(f'  k | Ukončí skript')
+
 
 def main():
     starting_number = 'n/a'
     print_choices(starting_number)
     
     while True:
+        print('-' * 52)
         print('Vyberte volbu z menu')
         choice = input(' > ')
         if choice.isdecimal() and int(choice) in range(1, 4):
@@ -80,7 +107,7 @@ def main():
             if int(choice) == 2:
                 print('volba 2')
             if int(choice) == 3:
-                print('volba 3')
+                count_steps(n)
         elif choice in (CHOICES):
             print_choices(starting_number)
         elif choice in (QUITS):
@@ -88,6 +115,7 @@ def main():
         else:
             print('Vyberte jednu z možností výše, zadejte číslo volby.')
             print('Pro vypsání možností zadejte: \'?\'')
+
 
 if __name__ == '__main__':
     os.system('clear')
