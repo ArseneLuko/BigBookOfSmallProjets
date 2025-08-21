@@ -88,7 +88,7 @@ def print_choices(starting_number: int) -> None:
     print('Collatz sequence generátor'.center(52))
     print('-' * 52)
     print(f'  1 | Vygeneruje sekvenci pro zadané číslo')
-    print(f'  2 | Zobrazit graficky kroky sekvence pro číslo {starting_number}')
+    print(f'  2 | Zobrazit graficky kroky sekvence pro vybrané číslo')
     print(f'  3 | Vypsat délku sekvencí pro prvních {n} čísel')
     print(f'  k | Ukončí skript')
 
