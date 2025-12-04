@@ -98,6 +98,16 @@ def get_layout() -> int:
         else:
             print('Zadejte velikost jako celé číslo v rozmezí od 1 do 7."')
         
+def save_to_txt(calendar: str, year: int, month: int):
+    """Uloží výstup do souboru s názvem 'YYYY_MM_calendar.txt'"""
+    file_name = f'{year}_{month}_calendar.txt'
+
+    with open(file_name, 'w') as file_object:
+        file_object.write(calendar)
+
+    print(f'Kalendář pro {month}. měsíc roku {year} byl uložen do souboru: {file_name}')
+    
+
 if __name__ == '__main__':
     year = get_year()
     month = get_month(year)
@@ -106,3 +116,6 @@ if __name__ == '__main__':
     calendar = get_calendar(year, month)
 
     print(calendar)
+
+    save_to_txt(calendar, year, month)
+
