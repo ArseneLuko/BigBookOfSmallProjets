@@ -26,11 +26,20 @@ class Dice:
         self.sides = sides
 
     def roll_dice(self) -> int:
-        '''Return an integer representing one side of one die.'''
+        '''Return an integer representing a roll of the die.'''
         return random.randint(1, self.sides)
 
 class Player:
-    pass
+    """Class representing a player, they have two dice, name and a purse."""
+
+    def __init__(self, name: str, initial_purse: int=5_000, 
+                 number_of_dice: int=2):
+        self.name = name
+        self.purse = initial_purse
+        self.number_of_dice = number_of_dice
+        self.dice = {}
+        for number in range(number_of_dice):
+            self.dice[number + 1] = Dice()
 
 if __name__ == '__main__':
     pass
