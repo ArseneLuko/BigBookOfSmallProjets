@@ -28,6 +28,16 @@ class Dice:
     def roll_dice(self) -> int:
         '''Return an integer representing a roll of the die.'''
         return random.randint(1, self.sides)
+    
+class Purse:
+    """Class representing a purse, keeps the current value of money in the purse. And have methods to update value of money in the purse."""
+
+    def __init__(self, initial_purse):
+        self.value = initial_purse
+
+    def get_value(self) -> int:
+        """Return actual value of the purse"""
+        return self.value
 
 class Player:
     """Class representing a player, they have two dice, name and a purse."""
@@ -35,7 +45,7 @@ class Player:
     def __init__(self, name: str, initial_purse: int=5_000, 
                  number_of_dice: int=2):
         self.name = name
-        self.purse = initial_purse
+        self.purse = Purse(initial_purse) # 
         self.number_of_dice = number_of_dice
         self.dice = {}
         for number in range(number_of_dice):
