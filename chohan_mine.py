@@ -6,6 +6,7 @@ scratch, but I chose to use OOP concept.
 
 import random
 import sys
+from chohan_language import messages_en as messages
 
 class Game:    
     def __init__(self):
@@ -13,10 +14,18 @@ class Game:
         Create a game with player        
         """
         self.player = Player(*self.get_new_game_values())
+        self.print_message(messages["welcome"])
+        self.print_message()
 
     def get_new_game_values(self):
         # return
         return ('Lukas', 7000) # testing line
+    
+    def print_message(self, message: str = messages["separator"]):
+        """
+        Prints the input between the '|' characters at the beginning and the end with a space after and before the character '|', respectively. Total length of a string is 82 characters.
+        """
+        print(f"| {message: ^78} |")
 
 class Purse:
     """Class representing a purse, keeps the current value of money in the purse. And have methods to update value of money in the purse."""
