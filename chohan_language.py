@@ -8,11 +8,17 @@ Maximum lenght of an item in dictionary is 78.
 # empty dictionary with all keys to use as a template
 messages_empty = {
     "welcome": "",
-    "separator": ""
+    "separator": "",
+    "enter_name": "",
+    "enter_money": "",
+    "not_decimal": ""
 }
 
 messages_en = {
     "welcome": "Welcome to play Cho-Han, a traditional Japanese gambling game using dice.",
-    "separator": 78 * "-"
+    "separator": 78 * "-",
+    "enter_name": "Enter your name: ",
+    "enter_money": "Enter the amount you will be starting with. (an empty line = 5,000)",
+    "not_decimal": "Please enter a number."
 }
 

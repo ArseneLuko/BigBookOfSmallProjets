@@ -13,19 +13,35 @@ class Game:
         """
         Create a game with player        
         """
-        self.player = Player(*self.get_new_game_values())
+        self.print_message()
         self.print_message(messages["welcome"])
         self.print_message()
+        self.player = Player(*self.get_new_game_values())
+
 
     def get_new_game_values(self):
-        # return
-        return ('Lukas', 7000) # testing line
+        self.print_message(messages["enter_name"])
+        self.name = input("| ")
+        self.print_message(messages["enter_money"])
+        while True:
+            self.money_value = input("| ")
+            if self.money_value == "":
+                self.money_value = 5_000
+            elif not self.money_value.isdecimal():
+                self.print_message(messages["not_decimal"])
+            else:
+                self.money_value = int(self.money_value)
+                break
+        # return (name, money)
+        return (self.name, self.money_value) # testing line
     
     def print_message(self, message: str = messages["separator"]):
         """
-        Prints the input between the '|' characters at the beginning and the end with a space after and before the character '|', respectively. Total length of a string is 82 characters.
+        Prints the input after the '| ' string at the beginning. Total length of a string is 80 characters.
+
+        :param message: A string to print from imported languege file. If not set, initial value is 'separator' string of 78 times '-'
         """
-        print(f"| {message: ^78} |")
+        print(f"| {message: <78}")
 
 class Purse:
     """Class representing a purse, keeps the current value of money in the purse. And have methods to update value of money in the purse."""
