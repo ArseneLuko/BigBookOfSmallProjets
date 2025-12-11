@@ -1,5 +1,5 @@
 '''
-Cho-Han game by Lukas Karásek, inspired by Al Sweigat's book 
+Cho-Han game by Lukas Karásek, inspired by Al Sweigart's book 
 'The Big Book of Small Pyton Projects'. My solution writen from
 scratch, but I chose to use OOP concept.
 '''
@@ -7,8 +7,14 @@ scratch, but I chose to use OOP concept.
 import random
 import sys
 
-class Game:
-    pass    
+class Game:    
+    def __init__(self):
+        self.player = Player(*self.get_new_game_values())
+
+    def get_new_game_values(self):
+        # return
+        # return ('Lukas', 7000) # testing line
+        return ('Lukas', 7000, 3) # testing line
 
 class Dice:
     """Class representing a dice. If not settled, creates a six-side die."""
@@ -44,6 +50,13 @@ class Player:
 
     def __init__(self, name: str, initial_purse: int=5_000, 
                  number_of_dice: int=2):
+        """
+        Initialize a new player.
+
+        :param name: Name of the player of type str.
+        :param initial_purse: Initial amount of money in a player's purse of type int. If not set, value is 5_000.
+        :param number_of_dice: Initial amount of dice. If not set, value is 2.
+        """
         self.name = name
         self.purse = Purse(initial_purse) # 
         self.number_of_dice = number_of_dice
@@ -52,4 +65,5 @@ class Player:
             self.dice[number + 1] = Dice()
 
 if __name__ == '__main__':
+    newGame = Game()
     pass
