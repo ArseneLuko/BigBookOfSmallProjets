@@ -16,25 +16,30 @@ class Game:
         self.print_message()
         self.print_message(messages["welcome"])
         self.print_message()
+        # self.player = Player('Janek', 4000) # testing line
         self.player = Player(*self.get_new_game_values())
+        self.dealer = Dealer()
 
 
     def get_new_game_values(self):
         self.print_message(messages["enter_name"])
         self.name = input("| ")
         self.print_message(messages["enter_money"])
+
         while True:
             self.money_value = input("| ")
-            if self.money_value == "":
+            if self.money_value == '':
                 self.money_value = 5_000
+                break
             elif not self.money_value.isdecimal():
                 self.print_message(messages["not_decimal"])
             else:
                 self.money_value = int(self.money_value)
                 break
-        # return (name, money)
-        return (self.name, self.money_value) # testing line
+
+        return (self.name, self.money_value)
     
+
     def print_message(self, message: str = messages["separator"]):
         """
         Prints the input after the '| ' string at the beginning. Total length of a string is 80 characters.
@@ -69,12 +74,22 @@ class Dice:
 
     def __init__(self, sides=6):
         self.sides = sides
+        self.roll_number = 1 
+        self.rolls_history = {}
 
-    def roll_dice(self) -> int:
+    def roll_die(self) -> int:
         '''Return an integer representing a roll of the die.'''
-        return random.randint(1, self.sides)
 
-class Dealer:
+        self.roll = random.randint(1, self.sides)
+        self.rolls_history[str(self.roll_number)] = self.roll
+        self.roll_number += 1
+        return self.roll
+    
+    def get_rolls_history(self):
+        return self.rolls_history
+
+
+class Dealer(Game):
     """Class representing a dealer, they have two dice"""
 
     def __init__(self, number_of_dice: int=2):
@@ -87,6 +102,16 @@ class Dealer:
         self.dice = {}
         for number in range(number_of_dice):
             self.dice[number + 1] = Dice()
+
+    
+    def roll_dice(self):
+        """
+        Roll all dealer's dice
+        """
+        for i in range(self.number_of_dice):
+            self.hod = self.dice[i + 1].roll_die()
+            super().print_message(f'{i + 1}. kostkou jsem hodil {self.hod}')
+
 
 class Player:
     """Class representing a player, they have name and a purse."""
@@ -101,6 +126,6 @@ class Player:
         self.name = name
         self.purse = Purse(initial_purse) # 
 
+
 if __name__ == '__main__':
     newGame = Game()
-    pass
