@@ -12,7 +12,10 @@ messages_empty = {
     "enter_name": "",
     "enter_money": "",
     "not_decimal": "",
-    "purse_value": ""
+    "bet_and_purse": "",
+    "not_a_number": "",
+    "not_enough": "",
+    "bet_accepted": ""
 }
 
 messages_en = {
@@ -21,6 +24,9 @@ messages_en = {
     "enter_name": "Enter your name: ",
     "enter_money": "Enter the amount you will be starting with. (an empty line = 5,000)",
     "not_decimal": "Please enter a number.",
-    "purse_value": "In your purse: {}"
+    "bet_and_purse": "In your purse: {}, how much do you want to bet?",
+    "not_a_number": "Please enter a number.",
+    "not_enough": "You don't have enough money to bet so. You have: {}",
+    "bet_accepted": "You've bet {}. Let's play"
 }
 

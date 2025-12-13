@@ -11,8 +11,9 @@ from chohan_language import messages_en as messages
 class Game:    
     def __init__(self):
         """
-        Create a game with a player, dealer.     
+        Create a game with a player, dealer.
         """
+        self.games_count = 1
         self.print_message()
         self.print_message(messages["welcome"])
         self.print_message()
@@ -21,10 +22,9 @@ class Game:
         self.dealer = Dealer()
         self.main_game_loop()
 
-
     def main_game_loop(self):
-        self.print_message(messages["purse_value"].format(self.player.purse.get_value()))
-
+        self.print_message(messages["bet_and_purse"].format(self.player.purse.get_value()))
+        self.bet = self.get_bet()
 
     def get_new_game_values(self):
         self.print_message(messages["enter_name"])
@@ -44,7 +44,6 @@ class Game:
 
         return (self.name, self.money_value)
     
-
     def print_message(self, message: str = messages["separator"]):
         """
         Prints the input after the '| ' string at the beginning. Total length of a string is 80 characters.
@@ -53,6 +52,23 @@ class Game:
         """
         print(f"| {message: <78}")
 
+    def get_bet(self):
+        """
+        Get bet from user and control if it is a number and if the player have enough to bet.
+        """
+        while True:
+            self.bet = input("| ")
+            if not self.bet.isdecimal():
+                self.print_message(messages["not_a_number"])
+            elif int(self.bet) > self.player.purse.get_value():
+                self.print_message(messages["not_enough"].format(self.player.purse.get_value()))
+            else:
+                self.bet = int(self.bet)
+                self.print_message(messages["bet_accepted"].format(self.bet))
+                break
+        return self.bet
+
+    
 class Purse:
     """Class representing a purse, keeps the current value of money in the purse. And have methods to update value of money in the purse."""
 
