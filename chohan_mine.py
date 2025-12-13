@@ -8,17 +8,23 @@ import random
 import sys
 from chohan_language import messages_en as messages
 
-class Game:    
+class Game:
+    CHO = "CHO-even"
+    HAN = "HAN-odd"
+    initial_taxes = 10 # tax in percentage
+
     def __init__(self):
         """
         Create a game with a player, dealer and start a main game loop.
         """
         self.games_count = 1
+        self.taxes_coefficient = (100 - self.initial_taxes) / 100
+
         self.print_message()
         self.print_message(messages["welcome"])
         self.print_message()
-        # self.player = Player('Janek', 4000) # testing line
-        self.player = Player(*self.get_new_game_values())
+        self.player = Player('Janek', 4000) # testing line
+        # self.player = Player(*self.get_new_game_values())
         self.dealer = Dealer()
         self.main_game_loop()
 
@@ -26,11 +32,35 @@ class Game:
         """
         Main game loop for one round. The method will request a bet from the user, roll the dice, evaluate the bet, potentially deduct a fee for the win, update the player's purse, and ask if they want to continue. 
         """
+        self.player_won = bool
+
         self.print_message(messages["bet_and_purse"].format(self.player.purse.get_value()))
         self.actual_bet = self.get_bet()
         self.actual_roll = self.dealer.roll_all_dice()
+        self.player_won = self.evaluate_sum()
 
 
+        if self.player_won:
+            self.update_amount = int(self.actual_bet[1] * self.taxes_coefficient)
+            self.print_message(messages["player_won"].format(self.update_amount))
+        else:
+            self.update_amount = -self.actual_bet[1]
+            self.print_message(messages["player_lost"])
+
+        self.player.purse.update_purse(self.update_amount)
+
+    def evaluate_sum(self):
+        if sum(self.actual_roll) % 2 == 0:
+            self.actual_sum = self.CHO
+        else:
+            self.actual_sum = self.HAN
+
+        if self.actual_bet[0] == self.actual_sum:
+            return True
+        else:
+            return False
+
+        
     def get_new_game_values(self):
         self.print_message(messages["enter_name"])
         self.name = input("| ")
@@ -81,16 +111,16 @@ class Game:
             if self.bet_type not in (acceptable_answers):
                 self.print_message(messages["acceptable_answers"])
             elif self.bet_type.lower().startswith('c'):
-                self.bet_type = 'CHO-even'
+                self.bet_type = self.CHO
                 break
             else:
-                self.bet_type = 'HAN-odd'
+                self.bet_type = self.HAN
                 break
         
-        return (self.bet_amount, self.bet_type)
+        return (self.bet_type, self.bet_amount)
 
     
-class Purse:
+class Purse(Game):
     """Class representing a purse, keeps the current value of money in the purse. And have methods to update value of money in the purse."""
 
     def __init__(self, initial_purse):
@@ -99,6 +129,10 @@ class Purse:
     def get_value(self) -> int:
         """Return actual value of the purse"""
         return self.value
+    
+    def update_purse(self, amount: int):
+        self.value += amount
+
     
 class Dice:
     """Class representing a dice. If not settled, creates a six-side die."""
@@ -153,6 +187,9 @@ class Dealer(Game):
             self.roll = self.dice[i + 1].roll_die()
             super().print_message(f'{i + 1}. kostkou jsem hodil {self.roll}') # testing line, erased
             self.rolls += (self.roll, )
+
+
+        
         
         return self.rolls
 
