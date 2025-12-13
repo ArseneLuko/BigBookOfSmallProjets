@@ -11,7 +11,8 @@ messages_empty = {
     "separator": "",
     "enter_name": "",
     "enter_money": "",
-    "not_decimal": ""
+    "not_decimal": "",
+    "purse_value": ""
 }
 
 messages_en = {
@@ -19,6 +20,7 @@ messages_en = {
     "separator": 78 * "-",
     "enter_name": "Enter your name: ",
     "enter_money": "Enter the amount you will be starting with. (an empty line = 5,000)",
-    "not_decimal": "Please enter a number."
+    "not_decimal": "Please enter a number.",
+    "purse_value": "In your purse: {}"
 }
 

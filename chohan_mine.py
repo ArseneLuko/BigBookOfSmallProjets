@@ -11,7 +11,7 @@ from chohan_language import messages_en as messages
 class Game:    
     def __init__(self):
         """
-        Create a game with player        
+        Create a game with a player, dealer.     
         """
         self.print_message()
         self.print_message(messages["welcome"])
@@ -19,6 +19,11 @@ class Game:
         # self.player = Player('Janek', 4000) # testing line
         self.player = Player(*self.get_new_game_values())
         self.dealer = Dealer()
+        self.main_game_loop()
+
+
+    def main_game_loop(self):
+        self.print_message(messages["purse_value"].format(self.player.purse.get_value()))
 
 
     def get_new_game_values(self):
@@ -81,7 +86,7 @@ class Dice:
         '''Return an integer representing a roll of the die.'''
 
         self.roll = random.randint(1, self.sides)
-        self.rolls_history[str(self.roll_number)] = self.roll
+        self.rolls_history[self.roll_number] = self.roll
         self.roll_number += 1
         return self.roll
     
