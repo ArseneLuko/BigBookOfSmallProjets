@@ -11,7 +11,7 @@ from chohan_language import messages_en as messages
 class Game:    
     def __init__(self):
         """
-        Create a game with a player, dealer.
+        Create a game with a player, dealer and start a main game loop.
         """
         self.games_count = 1
         self.print_message()
@@ -23,8 +23,13 @@ class Game:
         self.main_game_loop()
 
     def main_game_loop(self):
+        """
+        Main game loop for one round. The method will request a bet from the user, roll the dice, evaluate the bet, potentially deduct a fee for the win, update the player's purse, and ask if they want to continue. 
+        """
         self.print_message(messages["bet_and_purse"].format(self.player.purse.get_value()))
-        self.bet = self.get_bet()
+        self.actual_bet = self.get_bet()
+        self.actual_roll = self.dealer.roll_all_dice()
+
 
     def get_new_game_values(self):
         self.print_message(messages["enter_name"])
@@ -54,19 +59,35 @@ class Game:
 
     def get_bet(self):
         """
-        Get bet from user and control if it is a number and if the player have enough to bet.
+        Get bet from user and check if it is a number and if the player have enough to bet. Second, asks what they bet on 'CHO' (even) or 'HAN' (odd)
         """
+        acceptable_answers = ("cho", "han", "c", "h", "ch")
+
+        self.print_message(messages["bet_ask_amount"])
         while True:
-            self.bet = input("| ")
-            if not self.bet.isdecimal():
+            self.bet_amount = input("| ")
+            if not self.bet_amount.isdecimal():
                 self.print_message(messages["not_a_number"])
-            elif int(self.bet) > self.player.purse.get_value():
+            elif int(self.bet_amount) > self.player.purse.get_value():
                 self.print_message(messages["not_enough"].format(self.player.purse.get_value()))
             else:
-                self.bet = int(self.bet)
-                self.print_message(messages["bet_accepted"].format(self.bet))
+                self.bet_amount = int(self.bet_amount)
+                self.print_message(messages["bet_accepted"].format(self.bet_amount))
                 break
-        return self.bet
+        
+        self.print_message(messages["bet_ask_type"])
+        while True:
+            self.bet_type = input("| ")
+            if self.bet_type not in (acceptable_answers):
+                self.print_message(messages["acceptable_answers"])
+            elif self.bet_type.lower().startswith('c'):
+                self.bet_type = 'CHO-even'
+                break
+            else:
+                self.bet_type = 'HAN-odd'
+                break
+        
+        return (self.bet_amount, self.bet_type)
 
     
 class Purse:
@@ -81,8 +102,6 @@ class Purse:
     
 class Dice:
     """Class representing a dice. If not settled, creates a six-side die."""
-
-    #TODO: uložení hodu, přečti poslední hod
 
     japanese_numbers = {
         1: 'ICHI',
@@ -124,14 +143,18 @@ class Dealer(Game):
         for number in range(number_of_dice):
             self.dice[number + 1] = Dice()
 
-    
-    def roll_dice(self):
+    def roll_all_dice(self) -> tuple:
         """
-        Roll all dealer's dice
+        Roll all dealer's dice and return the values as a tuple.
         """
+        self.rolls = tuple()
+
         for i in range(self.number_of_dice):
-            self.hod = self.dice[i + 1].roll_die()
-            super().print_message(f'{i + 1}. kostkou jsem hodil {self.hod}')
+            self.roll = self.dice[i + 1].roll_die()
+            super().print_message(f'{i + 1}. kostkou jsem hodil {self.roll}') # testing line, erased
+            self.rolls += (self.roll, )
+        
+        return self.rolls
 
 
 class Player:
