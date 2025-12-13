@@ -20,7 +20,9 @@ messages_empty = {
     "bet_ask_type": "",
     "acceptable_answers": "",
     "player_won": "",
-    "player_lost": ""
+    "player_lost": "",
+    "continue": "",
+    "end_game": ""
 }
 
 messages_en = {
@@ -37,6 +39,8 @@ messages_en = {
     "bet_ask_type": "What do you want to bet on: 'CHO' (even) or 'HAN' (odd)?",
     "acceptable_answers": "Please enter either 'cho' or 'han' or some of first letters.",
     "player_won": "Congratulations. You won {}. You lucky, keep going!",
-    "player_lost": "You didn't guess well. It can change next time, try it again!"
+    "player_lost": "You didn't guess well. It can change next time, try it again!",
+    "continue": "One more time? y/n",
+    "end_game": "Thanks for playing {}. See you next time."
 }
 

@@ -4,6 +4,8 @@ Cho-Han game by Lukas Karásek, inspired by Al Sweigart's book
 scratch, but I chose to use OOP concept.
 '''
 
+#TODO: když se dostane hráč na 0
+
 import random
 import sys
 from chohan_language import messages_en as messages
@@ -23,8 +25,8 @@ class Game:
         self.print_message()
         self.print_message(messages["welcome"])
         self.print_message()
-        self.player = Player('Janek', 4000) # testing line
-        # self.player = Player(*self.get_new_game_values())
+        # self.player = Player('Janek', 4000) # testing line
+        self.player = Player(*self.get_new_game_values())
         self.dealer = Dealer()
         self.main_game_loop()
 
@@ -32,22 +34,33 @@ class Game:
         """
         Main game loop for one round. The method will request a bet from the user, roll the dice, evaluate the bet, potentially deduct a fee for the win, update the player's purse, and ask if they want to continue. 
         """
-        self.player_won = bool
+        while True:
+            self.player_won = bool
 
-        self.print_message(messages["bet_and_purse"].format(self.player.purse.get_value()))
-        self.actual_bet = self.get_bet()
-        self.actual_roll = self.dealer.roll_all_dice()
-        self.player_won = self.evaluate_sum()
+            self.print_message(messages["bet_and_purse"].format(self.player.purse.get_value()))
+            self.actual_bet = self.get_bet()
+            self.actual_roll = self.dealer.roll_all_dice()
+            self.player_won = self.evaluate_sum()
 
+            if self.player_won:
+                self.update_amount = int(self.actual_bet[1] * self.taxes_coefficient)
+                self.print_message(messages["player_won"].format(self.update_amount))
+            else:
+                self.update_amount = -self.actual_bet[1]
+                self.print_message(messages["player_lost"])
 
-        if self.player_won:
-            self.update_amount = int(self.actual_bet[1] * self.taxes_coefficient)
-            self.print_message(messages["player_won"].format(self.update_amount))
-        else:
-            self.update_amount = -self.actual_bet[1]
-            self.print_message(messages["player_lost"])
+            self.player.purse.update_purse(self.update_amount)
 
-        self.player.purse.update_purse(self.update_amount)
+            self.print_message(messages["continue"])
+            if input("| ").lower().startswith("y"):
+                self.games_count += 1
+                continue
+            else:
+                self.print_message(messages["end_game"].format(self.player_name))
+                pass # testing line
+                
+                sys.exit()
+
 
     def evaluate_sum(self):
         if sum(self.actual_roll) % 2 == 0:
@@ -63,7 +76,7 @@ class Game:
         
     def get_new_game_values(self):
         self.print_message(messages["enter_name"])
-        self.name = input("| ")
+        self.player_name = input("| ")
         self.print_message(messages["enter_money"])
 
         while True:
@@ -77,7 +90,7 @@ class Game:
                 self.money_value = int(self.money_value)
                 break
 
-        return (self.name, self.money_value)
+        return (self.player_name, self.money_value)
     
     def print_message(self, message: str = messages["separator"]):
         """
