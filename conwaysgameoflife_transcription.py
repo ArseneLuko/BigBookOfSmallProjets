@@ -11,7 +11,7 @@ WIDTH = 79 # The width of the cell grid
 HEIGHT = 20 # The height of the cell grid
 
 # (!) Try to change ALIVE to '#' or another character:
-ALIVE = 0 # The character representing a living cell
+ALIVE = 'O' # The character representing a living cell
 # (!) Try to change DEAD to '.' or another character:
 DEAD = ' '
 
@@ -28,7 +28,7 @@ for x in range(WIDTH): # Loop over every possible column
         if random.randint(0, 1) == 0:
             nextCells[(x, y)] = ALIVE # Add a living cell
         else:
-            nextCells[(x, y)] = DEAD
+            nextCells[(x, y)] = DEAD  
 
 while True: # Main program loop
     # Each iteration of this loop is a step of the simulation
@@ -72,20 +72,20 @@ while True: # Main program loop
             if cells[(right, below)] == ALIVE:
                 numNeighbors += 1 # Bottom right neighbor is alive.
 
-            # Set cell based on Conway's Game of Life rules:
+            # Set cel5l based on Conway's Game of Life rules:
             if cells[(x, y)] == ALIVE and (numNeighbors == 2 
                 or numNeighbors == 3):
                 # Living cell with 2 or 3 neighbors stay alive.
                 nextCells[(x, y)] = ALIVE
             elif cells[(x, y)] == DEAD and numNeighbors == 3:
                 # Dead cell with 3 neighbor become alive
-                nextCells[(x, y)] == ALIVE
+                nextCells[(x, y)] = ALIVE
             else:
                 # Everything else dies or stays dead:
-                nextCells[(x, y)] == DEAD
+                nextCells[(x, y)] = DEAD
 
     try:
-        time.sleep(1) # Add a 1 second pause to reduce flickering
+        time.sleep(.01) # Add a 1 second pause to reduce flickering
     except KeyboardInterrupt:
         print('Conway\'s Game of Life')
         print('By Al Sweigart al@inventwithpython.com')
