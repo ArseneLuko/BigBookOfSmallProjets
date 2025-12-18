@@ -4,3 +4,4 @@ steps.png
 .vscode/settings.json
 __pycache__/
 collatz/
+conwaysgameoflife_test.py
