@@ -25,14 +25,17 @@ class InputTypes:
 
         if value in ("CHAR_ALIVE", "CHAR_DEAD"):
             self.warning = "Please input only one character."
+
             if value == "CHAR_ALIVE":
                 self.default_value = '#'
                 self.question = f"Input character for living cell: (default: '{self.default_value}')"
             elif value == "CHAR_DEAD":    
                 self.default_value = ' '
                 self.question = f"Input character for dead cell: (default: '{self.default_value}')"
+
         elif value in ("WIDTH", "HEIGHT"):
             self.warning = ("Please enter a number between 3 and 79 (included)")
+            
             if value == "WIDTH":
                 self.default_value = 79
                 self.question = f"Input the width of the pattern: (default: {self.default_value})"
@@ -73,24 +76,26 @@ class Field:
         Enjoy!
               """)
 
-    def user_input(self, type: InputTypes) -> tuple:
+    def user_input(self, type: InputTypes) -> Union[str, int]:
         """
-        User's input to get either character of living or dead cell 
-        or size of the pattern. Return two characters 
-        or two integers, respectively.
+        Gets user input for either characters representing living/dead cells 
+        or the size of the pattern. Returns either a string or an integer, 
+        depending on the provided type.
 
-        :param type: Type of user's input of type string.\n
-            Aavailable values: CHAR, SIZE type of built-in InputType class.\n
-            Input parametr as self.CHAR or self.SIZE\n
+        :param type: The type of user input, provided by the 
+            built-in InputType class .\n
+            Aavailable values: self.CHAR_ALIVE, self.CHAR_DEAD, self.WIDTH, self.HEIGHT\n
 
-            When self.CHAR is provide: User will be gradually prompted 
-            for a character, first for representing an alive cell, 
-            and then for representing a dead cell. 
-            Return tuple of two strings.
+            When self.CHAR_ALIVE or self.CHAR_DEAD is provided: The user 
+            is prompted to enter a character, first for 
+            representing an alive cell, then for representing a dead cell. 
+            This returns a string.
 
-            When self.SIZE is provide: User will be gradually prompted 
-            for width and height. Return tuple of two integers.
-        """ #TODO: aktualizovat docstring pro 4 proměnné a jednu otázku
+            When self.WIDTH or self.HEIGHT is provided: The user is prompted 
+            to enter values for width or height of the 
+            pattern. This returns an integer. 
+            Return an integer.
+        """
 
         print(type.question)
         while True:
