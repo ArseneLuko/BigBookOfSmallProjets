@@ -6,6 +6,9 @@ Inspired by inspired by Al Sweigart's book
 https://inventwithpython.com/bigbookpython/project13.html
 """
 
+import os
+
+
 class InputTypes:
     """
     Class to represent the type of user input.
@@ -35,7 +38,7 @@ class InputTypes:
 
         elif value in ("WIDTH", "HEIGHT"):
             self.warning = ("Please enter a number between 3 and 79 (included)")
-            
+
             if value == "WIDTH":
                 self.default_value = 79
                 self.question = f"Input the width of the pattern: (default: {self.default_value})"
@@ -49,15 +52,20 @@ class Field:
         """
 
         """
+        self.values = {}
         self.CHAR_ALIVE = InputTypes("CHAR_ALIVE")
         self.CHAR_DEAD = InputTypes("CHAR_DEAD")
         self.WIDTH = InputTypes("WIDTH")
         self.HEIGHT = InputTypes("HEIGHT")
         self.INPUTS = (self.CHAR_ALIVE, self.CHAR_DEAD, self.WIDTH, self.HEIGHT)
         self.introduce()
-        for user_input in self.INPUTS:
-            self.user_input(user_input)
+        for input_types in self.INPUTS:
+            user_input = self.user_input(input_types)
+            self.values[input_types] = user_input
+        self.main_loop()
 
+    def main_loop(self):
+        pass
 
     def introduce(self) -> None:
         """
@@ -76,7 +84,7 @@ class Field:
         Enjoy!
               """)
 
-    def user_input(self, type: InputTypes) -> Union[str, int]:
+    def user_input(self, type: InputTypes) -> str | int:
         """
         Gets user input for either characters representing living/dead cells 
         or the size of the pattern. Returns either a string or an integer, 
