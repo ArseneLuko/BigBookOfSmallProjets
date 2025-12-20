@@ -6,7 +6,7 @@ Inspired by inspired by Al Sweigart's book
 https://inventwithpython.com/bigbookpython/project13.html
 """
 
-import os
+from random import randint
 
 
 class InputTypes:
@@ -52,20 +52,34 @@ class Field:
         """
 
         """
-        self.values = {}
+        self.game_atrib = {}
+        self.cells_actual = {}
+        self.cells_next = {}
         self.CHAR_ALIVE = InputTypes("CHAR_ALIVE")
         self.CHAR_DEAD = InputTypes("CHAR_DEAD")
         self.WIDTH = InputTypes("WIDTH")
         self.HEIGHT = InputTypes("HEIGHT")
         self.INPUTS = (self.CHAR_ALIVE, self.CHAR_DEAD, self.WIDTH, self.HEIGHT)
+
         self.introduce()
         for input_types in self.INPUTS:
             user_input = self.user_input(input_types)
-            self.values[input_types] = user_input
+            self.game_atrib[input_types] = user_input
+
+        self.create_random_field()
         self.main_loop()
 
     def main_loop(self):
         pass
+
+    def create_random_field(self) -> None:
+        """
+        Create random field of alive/dead cells and store it in self.cells_next.
+        1 - represent alive cell, 0 - represent dead cell
+        """
+        for y in range(self.game_atrib[self.HEIGHT]):
+            for x in range(self.game_atrib[self.WIDTH]):
+                self.cells_next[(x, y)] = randint(0, 1)
 
     def introduce(self) -> None:
         """
