@@ -1,8 +1,7 @@
 """
 Conway's Game of Life
 More info at: https://en.wikipedia.org/wiki/conway%27s_Game_of_Life
-Inspired by inspired by Al Sweigart's book 
-'The Big Book of Small Pyton Projects': 
+Inspired by Al Sweigart's book 'The Big Book of Small Pyton Projects': 
 https://inventwithpython.com/bigbookpython/project13.html
 """
 
@@ -70,7 +69,25 @@ class Field:
         self.main_loop()
 
     def main_loop(self):
-        pass
+        # testing blok next 4 lines: (to delete)
+        while True:
+            self.cells_actual = self.cells_next.copy()
+            self.print_actual_field()
+            self.create_random_field()
+
+    def print_actual_field(self) -> None:
+        """
+        Prints characters representing live/dead cells stored 
+        in self.cells_actual.
+        """
+        for y in range(self.game_atrib[self.HEIGHT]):
+            for x in range(self.game_atrib[self.WIDTH]):
+                if self.cells_actual[(x, y)] == 1:
+                    print(self.game_atrib[self.CHAR_ALIVE], end="")
+                else:
+                    print(self.game_atrib[self.CHAR_DEAD], end="")
+            print()
+
 
     def create_random_field(self) -> None:
         """
