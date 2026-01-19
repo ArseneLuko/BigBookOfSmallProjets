@@ -71,7 +71,8 @@ class Game:
         """
         The process of life will begin.
         """
-        pass
+        self.get_attributes()
+        self.create_field()
 
     def create_field(self):
         self.field = Field()
@@ -82,7 +83,14 @@ class Game:
             self.game_atrib[input_types] = user_input
 
     def main_loop(self):
-        pass
+        while True:
+            time.sleep(.5)
+            try:
+                self.create_random_field()
+                self.print_actual_field()
+            except KeyboardInterrupt:
+                print('Thanks for watching the life. See you next time.')
+                sys.exit()
 
     def print_actual_field(self) -> None:
         """
@@ -171,36 +179,9 @@ class Game:
                     break
         
         return self.returns
-    
 
-class Field:
-    def __init__(self):
-        self.heigh = 70
-
-    # def create_random_field(self) -> None:
-    #     """
-    #     Create random field of alive/dead cells and store it in self.cells_next.
-    #     1 - represent alive cell, 0 - represent dead cell
-    #     """
-    #     for y in range(self.game_atrib[self.HEIGHT]):
-    #         for x in range(self.game_atrib[self.WIDTH]):
-    #             self.cells_next[(x, y)] = randint(0, 1)
-
-class Cell:
-    pass
 
 if __name__ == "__main__":
     new_field = Game()
-    new_field.get_attributes()
-    new_field.create_field()
-    while True:
-        time.sleep(.5)
-        try:
-            new_field.create_random_field()
-            new_field.print_actual_field()
-        except KeyboardInterrupt:
-            print('Nashledanou')
-            sys.exit()
-
-    pass
+    new_field.run()
 
