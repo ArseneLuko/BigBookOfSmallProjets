@@ -28,6 +28,8 @@ class InputTypes:
             raise ValueError(f"Invalid value '{value}'. Must be either 'CHAR_ALIVE', 'CHAR_DEAD', 'WIDTH', 'HEIGHT'")
         self.value = value #TODO: je potřeba tento parametr?
 
+        actual_width, actual_height = os.get_terminal_size()
+
         if value in ("CHAR_ALIVE", "CHAR_DEAD"):
             self.warning = "Please input only one character."
 
@@ -42,10 +44,10 @@ class InputTypes:
             self.warning = ("Please enter a number between 3 and 79 (included)")
 
             if value == "WIDTH":
-                self.default_value = 79
+                self.default_value = actual_width
                 self.question = f"Input the width of the pattern: (default: {self.default_value})"
             elif value == "HEIGHT":
-                self.default_value = 30
+                self.default_value = actual_height
                 self.question = f"Input the height of the pattern: (default: {self.default_value})"
 
     def __repr__(self):
@@ -72,10 +74,7 @@ class Game:
         The process of life will begin.
         """
         self.get_attributes()
-        self.create_field()
-
-    def create_field(self):
-        self.field = Field()
+        self.main_loop()
 
     def get_attributes(self):
         for input_types in self.INPUTS:
@@ -84,8 +83,8 @@ class Game:
 
     def main_loop(self):
         while True:
-            time.sleep(.5)
             try:
+                time.sleep(.5)
                 self.create_random_field()
                 self.print_actual_field()
             except KeyboardInterrupt:
