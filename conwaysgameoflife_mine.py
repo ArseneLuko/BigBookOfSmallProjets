@@ -3,10 +3,13 @@ Conway's Game of Life
 More info at: https://en.wikipedia.org/wiki/conway%27s_Game_of_Life
 Inspired by Al Sweigart's book 'The Big Book of Small Pyton Projects': 
 https://inventwithpython.com/bigbookpython/project13.html
+Writen from scratch using OOP concept as an excercise.
 """
 
 from random import randint
-
+import sys
+import os
+import time
 
 class InputTypes:
     """
@@ -45,41 +48,48 @@ class InputTypes:
                 self.default_value = 30
                 self.question = f"Input the height of the pattern: (default: {self.default_value})"
 
+    def __repr__(self):
+        return f"InputTypes({self.value})"
 
-class Field:
+class Game:
     def __init__(self):
         """
-
         """
-        self.game_atrib = {}
-        self.cells_actual = {}
-        self.cells_next = {}
+        self.game_atrib = {} 
+
         self.CHAR_ALIVE = InputTypes("CHAR_ALIVE")
         self.CHAR_DEAD = InputTypes("CHAR_DEAD")
         self.WIDTH = InputTypes("WIDTH")
         self.HEIGHT = InputTypes("HEIGHT")
         self.INPUTS = (self.CHAR_ALIVE, self.CHAR_DEAD, self.WIDTH, self.HEIGHT)
 
-        self.introduce()
+        # přesunout do Field
+        self.cells_actual = {}
+        self.cells_next = {}
+
+    def run(self):
+        """
+        The process of life will begin.
+        """
+        pass
+
+    def create_field(self):
+        self.field = Field()
+
+    def get_attributes(self):
         for input_types in self.INPUTS:
             user_input = self.user_input(input_types)
             self.game_atrib[input_types] = user_input
 
-        self.create_random_field()
-        self.main_loop()
-
     def main_loop(self):
-        # testing blok next 4 lines: (to delete)
-        while True:
-            self.cells_actual = self.cells_next.copy()
-            self.print_actual_field()
-            self.create_random_field()
+        pass
 
     def print_actual_field(self) -> None:
         """
         Prints characters representing live/dead cells stored 
         in self.cells_actual.
         """
+        os.system('clear')
         for y in range(self.game_atrib[self.HEIGHT]):
             for x in range(self.game_atrib[self.WIDTH]):
                 if self.cells_actual[(x, y)] == 1:
@@ -87,7 +97,6 @@ class Field:
                 else:
                     print(self.game_atrib[self.CHAR_DEAD], end="")
             print()
-
 
     def create_random_field(self) -> None:
         """
@@ -97,6 +106,8 @@ class Field:
         for y in range(self.game_atrib[self.HEIGHT]):
             for x in range(self.game_atrib[self.WIDTH]):
                 self.cells_next[(x, y)] = randint(0, 1)
+        
+        self.cells_actual = self.cells_next
 
     def introduce(self) -> None:
         """
@@ -132,8 +143,7 @@ class Field:
 
             When self.WIDTH or self.HEIGHT is provided: The user is prompted 
             to enter values for width or height of the 
-            pattern. This returns an integer. 
-            Return an integer.
+            pattern. This returns an integer.
         """
 
         print(type.question)
@@ -163,6 +173,34 @@ class Field:
         return self.returns
     
 
+class Field:
+    def __init__(self):
+        self.heigh = 70
+
+    # def create_random_field(self) -> None:
+    #     """
+    #     Create random field of alive/dead cells and store it in self.cells_next.
+    #     1 - represent alive cell, 0 - represent dead cell
+    #     """
+    #     for y in range(self.game_atrib[self.HEIGHT]):
+    #         for x in range(self.game_atrib[self.WIDTH]):
+    #             self.cells_next[(x, y)] = randint(0, 1)
+
+class Cell:
+    pass
+
 if __name__ == "__main__":
-    new_field = Field()
+    new_field = Game()
+    new_field.get_attributes()
+    new_field.create_field()
+    while True:
+        time.sleep(.5)
+        try:
+            new_field.create_random_field()
+            new_field.print_actual_field()
+        except KeyboardInterrupt:
+            print('Nashledanou')
+            sys.exit()
+
+    pass
 
