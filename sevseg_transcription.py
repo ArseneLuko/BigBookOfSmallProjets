@@ -12,6 +12,14 @@ F     B     __       __   __        __   __  __   __   __
 |__G__|    |  |   |  __|  __| |__| |__  |__    | |__| |__|
 |     |    |__|   | |__   __|    |  __| |__|   | |__|  __|
 E     C
+|__D__|
+
+ __A__
+|     |    Each digit in a seven-segment display:
+F     B     _      _   _       _   _  _   _   _
+|__G__|    | |  |  _|  _| |_| |_  |_   | |_| |_|
+|     |    |_|  | |_   _|   |  _| |_|  | |_|  _|
+E     C
 |__D__|"""
 
 
@@ -86,5 +94,5 @@ def getSevSegStr(number, minWidth=0):
 
 # If this program isn't being imported, display the numbers 00 to 99.
 if __name__ == '__main__':
-    for i in range(100):
+    for i in range(10):
         print(getSevSegStr(i, 2))
