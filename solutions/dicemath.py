@@ -8,13 +8,13 @@ import random, time
 # Set up the constants:
 DICE_WIDTH = 9
 DICE_HEIGHT = 5
-CANVAS_WIDTH = 79
+CANVAS_WIDTH = 79 # DEBUG: former 79
 CANVAS_HEIGHT = 24 - 3  # -3 for room to enter the sum at the bottom.
 
 # The duration is in seconds:
 QUIZ_DURATION = 30  # (!) Try changing this to 10 or 60.
 MIN_DICE = 2  # (!) Try changing this to 1 or 5.
-MAX_DICE = 6  # (!) Try changing this to 14.
+MAX_DICE = 6  # (!) Try changing this to 14. # DEBUG: former 6
 
 # (!) Try changing these to different numbers:
 REWARD = 4  # (!) Points awarded for correct answers.
@@ -147,6 +147,7 @@ while time.time() < startTime + QUIZ_DURATION:  # Main game loop.
                     if (prevDieLeft <= cornerX < prevDieRight
                         and prevDieTop <= cornerY < prevDieBottom):
                             overlaps = True
+
             if not overlaps:
                 # It doesn't overlap, so we can put it here:
                 topLeftDiceCorners.append((left, top))
