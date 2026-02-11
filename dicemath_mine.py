@@ -76,30 +76,31 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
         '''Change game settings, time and number of dice.'''
 
         self.clear_screen()
-        while True:
-            print('How much time you want to have to guess? Enter whole number in seconds, minimum 10, maximum 120.')
-            time = input('> ')
-            if time.isdecimal() and 10 <= int(time) <= 120:
-                self.game_time = int(time)
-                break
+        print(' == Game Settings ==')
+        print('How much time you want to have to guess? Enter whole number in seconds, minimum 10, maximum 120.')
 
+        time = self.get_limit('time', 10, 120)
+
+        print(f' {'-' * self.canvas_width} ')
         print('How many dice you want to play with? Enter whole numbers, first lower limit, second upper limit. (minimum 1, maximum 8)')
-        while True:
-            lower = input('enter lower limit > ')
-            if lower.isdecimal() and 1 <= int(lower) <= 7:
-                lower = int(lower)
-                break
+        
+        lower = self.get_limit('lower', 1, 7)
+        upper = self.get_limit('upper', lower + 1, 8)
 
-        while True:
-            upper = input('enter upper limit > ')
-            if upper.isdecimal() and lower < int(upper) <= 8:
-                upper = int(upper)
-                break
         
         self.dice_num = range(lower, upper + 1) # add 1 to include it in range
 
 
+    def get_limit(self, limit_type: str, min_limit, max_limit):
+        while True:
+            user_input = input(f'Enter {limit_type} limit.')
+            if user_input.isdecimal() and min_limit <= int(user_input) <= max_limit:
+                return int(user_input)
+            else:
+                print(f'Enter a whole number between {min_limit} and {max_limit} as a {limit_type} limit.')
+
     def set_remaining_time(self):
+        '''Set the remaining time.'''
         self.remaining_time = time() + self.game_time
 
 
