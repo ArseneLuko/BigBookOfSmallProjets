@@ -15,7 +15,8 @@ class Game:
     def __init__(self) -> None:
         self.game_time = 30
         self.dice_num = range(2, 7)
-        self.canvas_width, self.canvas_height = self.set_dimensions(79, 24)
+        self.check_terminal_size()
+        self.canvas_width, self.canvas_height = self.set_dimensions(os.get_terminal_size().columns, os.get_terminal_size().lines)
 
     def run(self):
         if self.welcome_screen():
@@ -52,6 +53,13 @@ class Game:
         height -= 3
         
         return (width, height)
+
+
+    def check_terminal_size(self):
+        if (os.get_terminal_size().columns < 79 or 
+            os.get_terminal_size().lines < 24):
+            print(f'Please run the game in bigger terminal. Minimal dimensions are 79 characters width and 24 characters heigh.')
+            sys.exit()
 
 
     def welcome_screen(self):
@@ -91,13 +99,15 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
         self.dice_num = range(lower, upper + 1) # add 1 to include it in range
 
 
-    def get_limit(self, limit_type: str, min_limit, max_limit):
+    def get_limit(self, limit_type: str, min_limit: int, max_limit: int) -> int:
+        """Get limits from user and checks their mininal and maximal values."""
         while True:
-            user_input = input(f'Enter {limit_type} limit.')
+            user_input = input(f'Enter {limit_type} limit > ')
             if user_input.isdecimal() and min_limit <= int(user_input) <= max_limit:
                 return int(user_input)
             else:
                 print(f'Enter a whole number between {min_limit} and {max_limit} as a {limit_type} limit.')
+
 
     def set_remaining_time(self):
         '''Set the remaining time.'''

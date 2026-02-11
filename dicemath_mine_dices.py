@@ -58,3 +58,6 @@ D6B = (['+-------+',
         '+-------+'], 6)
 
 ALL_DICE = (D1A, D2A, D2B, D3A, D3B, D4A, D5A, D6A, D6B)
+
+MIN_W = 79
+MIN_H = 24
