@@ -6,6 +6,7 @@ Player try to count sum of the dice in time."""
 
 import sys
 import os
+from time import time
 import subprocess
 
 import dicemath_mine_dices as dice
@@ -19,21 +20,24 @@ class Game:
     def run(self):
         if self.welcome_screen():
             self.change_settings()
-        # set-up the game (width, height, dice number) or default values
-        # lets play_game():
+
+        self.set_remaining_time()
+        self.play_game()
+
         # afte end show results
         # do you want to play again? - all this in while Loop
-        self.play_game()
 
 
     def play_game(self):
-        # if enough time play:
+        while self.remaining_time > time():
+            print('hraješ hru') # DEBUG
+
         # create diceses
         # check if they don't overlap
         # print them on screen
         # let the player answer
         # check for answer and manage points
-        print('hraješ hru') # DEBUG
+
 
     def set_dimensions(self, width: int, height: int) -> tuple[int, int]:
         """Return a dimension (widht or height) if the wanted dimension is smaller than actual terminal width or height. Otherwise, method will return the actual size as a dimension.
@@ -93,6 +97,10 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
                 break
         
         self.dice_num = range(lower, upper + 1) # add 1 to include it in range
+
+
+    def set_remaining_time(self):
+        self.remaining_time = time() + self.game_time
 
 
     def clear_screen(self):
