@@ -6,6 +6,7 @@ Player try to count sum of the dice in time."""
 
 import sys
 import os
+from random import randint
 from time import time
 import subprocess
 
@@ -13,8 +14,8 @@ import dicemath_mine_dices as dice
 
 class Game:
     def __init__(self) -> None:
-        self.game_time = 30
-        self.dice_num = range(2, 7)
+        self.game_duration = 30
+        self.dice_range = range(2, 7)
         self.check_terminal_size()
         self.canvas_width, self.canvas_height = self.set_dimensions(os.get_terminal_size().columns, os.get_terminal_size().lines)
 
@@ -23,21 +24,20 @@ class Game:
             self.change_settings()
 
         self.set_remaining_time()
-        self.play_game()
+        match = Match(self)
 
         # afte end show results
         # do you want to play again? - all this in while Loop
 
 
-    def play_game(self):
-        while self.remaining_time > time():
-            print('hraješ hru') # DEBUG
+    def create_dice(self):
+        '''Create random number of dice in range of self.dice_num. Checks their positions if they don't overlap and return a list of tuples of their top-left corners coordinates [(x, y),].'''
 
-        # create diceses
-        # check if they don't overlap
-        # print them on screen
-        # let the player answer
-        # check for answer and manage points
+        pass
+
+
+    def show_dice(self):
+        pass
 
 
     def set_dimensions(self, width: int, height: int) -> tuple[int, int]:
@@ -69,8 +69,8 @@ class Game:
         print(f'''Welcome to play \'Dicemath\' game. 
 I will roll the dice and you will try to sum up their values ASAP. You have a limited time to do so.
 Initial settings are: 
-Game time: {self.game_time} seconds
-Number of dice: {self.dice_num.start} to {self.dice_num.stop - 1} dice
+Game time: {self.game_duration} seconds
+Number of dice: {self.dice_range.start} to {self.dice_range.stop - 1} dice
               
 Do you want to change these settings? type: 'y' or yes to change settings or Enter to start play''')
         
@@ -87,7 +87,7 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
         print(' == Game Settings ==')
         print('How much time you want to have to guess? Enter whole number in seconds, minimum 10, maximum 120.')
 
-        time = self.get_limit('time', 10, 120)
+        self.game_duration = self.get_limit('time', 10, 120)
 
         print(f' {'-' * self.canvas_width} ')
         print('How many dice you want to play with? Enter whole numbers, first lower limit, second upper limit. (minimum 1, maximum 8)')
@@ -96,7 +96,7 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
         upper = self.get_limit('upper', lower + 1, 8)
 
         
-        self.dice_num = range(lower, upper + 1) # add 1 to include it in range
+        self.dice_range = range(lower, upper + 1) # add 1 to include it in range
 
 
     def get_limit(self, limit_type: str, min_limit: int, max_limit: int) -> int:
@@ -111,7 +111,7 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
 
     def set_remaining_time(self):
         '''Set the remaining time.'''
-        self.remaining_time = time() + self.game_time
+        self.remaining_time = time() + self.game_duration
 
 
     def clear_screen(self):
@@ -122,6 +122,20 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
             subprocess.run('clear')
 
 
+class Match:
+    def __init__(self, game: Game) -> None:
+        self.game = game
+        self.play_game()
+
+    def play_game(self):
+        while self.game.remaining_time > time():
+            self.game.create_dice()
+
+        # create diceses
+        # check if they don't overlap
+        # print them on screen
+        # let the player answer
+        # check for answer and manage points
 
 if __name__ == '__main__':
     new_game = Game()
