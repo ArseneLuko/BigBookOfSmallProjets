@@ -34,8 +34,9 @@ class Game:
 
         self.set_remaining_time()
         match = Match(self)
+        pass
 
-        # afte end show results
+        # after end show results
         # do you want to play again? - all this in while Loop
 
 
@@ -57,8 +58,13 @@ class Game:
     
     # TODO: create canvas a print canvas
     def create_canvas(self):
-        for item in self.dice_top_left_corners:
-            self.canvas[item] = 'X'
+        for sx, sy in self.dice_top_left_corners:
+            for y in range(self.dice_height):
+                for x in range(self.dice_width):
+                    pass # DEBUG
+                    self.canvas[(sx + x, sy + y)] = dice.D1A[0][y][x]# TODO: dices
+
+            # self.canvas[item] = 'X'
 
 
     def print_canvas(self):
