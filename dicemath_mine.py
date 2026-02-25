@@ -16,10 +16,12 @@ class DiceNumber:
     def __init__(self, min, max) -> None:
         self.min = min
         self.max = max
+        # self.min, self.max = 30, 30 # DEBUG
 
 class GameSettings:
     def __init__(self) -> None:
         self.game_duration = 30
+        # self.game_duration = 300 # DEBUG
         self.dice_width = 9
         self.dice_height = 5
         self.dice_number = DiceNumber(2, 7)
@@ -35,7 +37,6 @@ class GameSettings:
 
         self.set_remaining_time()
         match = Match(self)
-        pass
 
         # after end show results
         # do you want to play again? - all this in while Loop
@@ -47,20 +48,20 @@ class GameSettings:
         # dice_number = 1 # DEBUG
         dice_top_left_corners = []
         for _ in range(dice_number):
+
             while True:
-                # TODO: myslím, že nepotřebuji -1 ale zjistím později
                 left = random.randint(0, self.canvas_width - 1 - self.dice_width)
                 top = random.randint(0, self.canvas_height - 1 - self.dice_height)
                 overlap = False
 
                 top_left_X = left
                 top_left_Y = top
-                top_right_X = top_left_X + self.dice_width
-                top_right_Y = top_left_Y
-                bottom_left_X = top_left_X
-                bottom_left_Y = top_left_Y + self.dice_height
-                bottom_right_X = top_right_X
-                bottom_right_Y = top_right_Y
+                top_right_X = left + self.dice_width
+                top_right_Y = top
+                bottom_left_X = left
+                bottom_left_Y = top + self.dice_height
+                bottom_right_X = left + self.dice_width
+                bottom_right_Y = top + self.dice_height
 
                 for prev_left, prev_top in dice_top_left_corners:
                     prev_right = prev_left + self.dice_width
@@ -72,7 +73,7 @@ class GameSettings:
                                             (bottom_right_X, bottom_right_Y)):
                         if (prev_left <= corner_X < prev_right
                             and prev_top <= corner_Y < prev_bottom):
-                            overlap = True 
+                            overlap = True
 
                 if not overlap:
                     dice_top_left_corners.append((left, top))
@@ -82,13 +83,11 @@ class GameSettings:
     
     # TODO: create canvas a print canvas
     def create_canvas(self):
-        for sx, sy in self.dice_top_left_corners:
+        self.clear_canvas()
+        for pos, (sx, sy) in enumerate(self.dice_top_left_corners):
             for y in range(self.dice_height):
                 for x in range(self.dice_width):
-                    pass # DEBUG
-                    self.canvas[(sx + x, sy + y)] = dice.D1A[0][y][x]# TODO: dices
-
-            # self.canvas[item] = 'X'
+                    self.canvas[(sx + x, sy + y)] = self.dice[pos][0][y][x]
 
 
     def print_canvas(self):
@@ -173,11 +172,15 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
 
 
     def clear_screen(self):
-        '''Clear the terminal'''
+        '''Clear the terminal.'''
         if sys.platform == 'win32':
             subprocess.run('cls')
         else:
             subprocess.run('clear')
+
+    def clear_canvas(self):
+        '''Clear canvas.'''
+        self.canvas = {}
 
 
 class Match:
@@ -188,12 +191,12 @@ class Match:
 
     def play_game(self):
         while self.game.remaining_time > time():
-            self.game.dice = random.choices(dice.ALL_DICE, k=random.randint(1,len(dice.ALL_DICE)))
+            self.game.dice = random.choices(dice.ALL_DICE, k=random.randint(self.game.dice_number.min, self.game.dice_number.max))
             self.game.dice_top_left_corners = self.game.distribute_dice(len(self.game.dice))
             self.game.create_canvas()
             self.game.print_canvas()
-            print(f'délka canvas: {len(self.game.canvas)}')
-            input()
+            print(f'délka canvas: {len(self.game.canvas)}') # DEBUG
+            input() # DEBUG
 
         # create diceses
         # check if they don't overlap
