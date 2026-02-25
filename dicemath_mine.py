@@ -41,18 +41,42 @@ class GameSettings:
         # do you want to play again? - all this in while Loop
 
 
-    def distribute_dice(self, dice_number): # TODO: přepsat že se kostky vytvoří předtím, tohle má být vložení již existujících kostek v game.dice na plátno
+    def distribute_dice(self, dice_number):
         '''Create random coordinates for dice in self.dice. Checks their positions if they don't overlap and return a list of tuples of their top-left corners coordinates [(x, y),].'''
-        self.canvas = {}
+
         # dice_number = 1 # DEBUG
         dice_top_left_corners = []
         for _ in range(dice_number):
-            top = random.randint(0, self.canvas_height - self.dice_height)
-            left = random.randint(0, self.canvas_width - self.dice_width - 1)
+            while True:
+                # TODO: myslím, že nepotřebuji -1 ale zjistím později
+                left = random.randint(0, self.canvas_width - 1 - self.dice_width)
+                top = random.randint(0, self.canvas_height - 1 - self.dice_height)
+                overlap = False
 
-            # check overlaping
+                top_left_X = left
+                top_left_Y = top
+                top_right_X = top_left_X + self.dice_width
+                top_right_Y = top_left_Y
+                bottom_left_X = top_left_X
+                bottom_left_Y = top_left_Y + self.dice_height
+                bottom_right_X = top_right_X
+                bottom_right_Y = top_right_Y
 
-            dice_top_left_corners.append((left, top))
+                for prev_left, prev_top in dice_top_left_corners:
+                    prev_right = prev_left + self.dice_width
+                    prev_bottom = prev_top + self.dice_height
+
+                    for corner_X, corner_Y in ((top_left_X, top_left_Y),
+                                            (top_right_X, top_right_Y),
+                                            (bottom_left_X, bottom_left_Y),
+                                            (bottom_right_X, bottom_right_Y)):
+                        if (prev_left <= corner_X < prev_right
+                            and prev_top <= corner_Y < prev_bottom):
+                            overlap = True 
+
+                if not overlap:
+                    dice_top_left_corners.append((left, top))
+                    break
 
         return dice_top_left_corners
     
