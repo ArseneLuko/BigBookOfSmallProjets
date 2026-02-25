@@ -6,26 +6,27 @@ Player try to count sum of the dice in time."""
 
 import sys
 import os
-from random import randint
+import random
 from time import time
 import subprocess
 
 import dicemath_mine_dices as dice
 
-class DiceRange:
+class DiceNumber:
     def __init__(self, min, max) -> None:
         self.min = min
         self.max = max
 
-class Game:
+class GameSettings:
     def __init__(self) -> None:
         self.game_duration = 30
         self.dice_width = 9
         self.dice_height = 5
-        self.dice_range = DiceRange(2, 7)
+        self.dice_number = DiceNumber(2, 7)
         # self.check_terminal_size() 
         self.canvas_width, self.canvas_height = self.set_dimensions(os.get_terminal_size().columns, os.get_terminal_size().lines)
         self.canvas = {}
+        self.dice = []
         self.dice_top_left_corners = []
 
     def run(self):
@@ -40,15 +41,14 @@ class Game:
         # do you want to play again? - all this in while Loop
 
 
-    def create_dice(self):
-        '''Create random number of dice in range of self.dice_num. Checks their positions if they don't overlap and return a list of tuples of their top-left corners coordinates [(x, y),].'''
+    def distribute_dice(self, dice_number): # TODO: přepsat že se kostky vytvoří předtím, tohle má být vložení již existujících kostek v game.dice na plátno
+        '''Create random coordinates for dice in self.dice. Checks their positions if they don't overlap and return a list of tuples of their top-left corners coordinates [(x, y),].'''
         self.canvas = {}
-        dice_number = randint(self.dice_range.min, self.dice_range.max)
         # dice_number = 1 # DEBUG
         dice_top_left_corners = []
         for _ in range(dice_number):
-            top = randint(0, self.canvas_height - self.dice_height)
-            left = randint(0, self.canvas_width - self.dice_width - 1)
+            top = random.randint(0, self.canvas_height - self.dice_height)
+            left = random.randint(0, self.canvas_width - self.dice_width - 1)
 
             # check overlaping
 
@@ -104,7 +104,7 @@ class Game:
 I will roll the dice and you will try to sum up their values ASAP. You have a limited time to do so.
 Initial settings are: 
 Game time: {self.game_duration} seconds
-Number of dice: {self.dice_range.min} to {self.dice_range.max - 1} dice
+Number of dice: {self.dice_number.min} to {self.dice_number.max - 1} dice
               
 Do you want to change these settings? type: 'y' or yes to change settings or Enter to start play''')
         
@@ -130,7 +130,7 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
         upper = self.get_limit('upper', lower + 1, 8)
 
         
-        self.dice_range = DiceRange(lower, upper)
+        self.dice_number = DiceNumber(lower, upper)
 
 
     def get_limit(self, limit_type: str, min_limit: int, max_limit: int) -> int:
@@ -157,13 +157,15 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
 
 
 class Match:
-    def __init__(self, game: Game) -> None:
+    def __init__(self, game: GameSettings) -> None:
         self.game = game
         self.play_game()
+        
 
     def play_game(self):
         while self.game.remaining_time > time():
-            self.game.dice_top_left_corners = self.game.create_dice()
+            self.game.dice = random.choices(dice.ALL_DICE, k=random.randint(1,len(dice.ALL_DICE)))
+            self.game.dice_top_left_corners = self.game.distribute_dice(len(self.game.dice))
             self.game.create_canvas()
             self.game.print_canvas()
             print(f'délka canvas: {len(self.game.canvas)}')
@@ -176,5 +178,5 @@ class Match:
         # check for answer and manage points
 
 if __name__ == '__main__':
-    new_game = Game()
+    new_game = GameSettings()
     new_game.run()
