@@ -187,11 +187,21 @@ class Match:
     def __init__(self, game: GameSettings) -> None:
         self.game = game
         self.play_game()
+
+
+    def sum_up_dice_values(self):
+        '''Sum up values of dice in GameSettings.dice variable'''
+        total_value = 0
+        for _, value in self.game.dice:
+            total_value += value
+        
+        return total_value
         
 
     def play_game(self):
         while self.game.remaining_time > time():
             self.game.dice = random.choices(dice.ALL_DICE, k=random.randint(self.game.dice_number.min, self.game.dice_number.max))
+            self.guess_value = self.sum_up_dice_values()
             self.game.dice_top_left_corners = self.game.distribute_dice(len(self.game.dice))
             self.game.create_canvas()
             self.game.print_canvas()
