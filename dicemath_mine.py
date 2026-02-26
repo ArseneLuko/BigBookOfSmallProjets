@@ -12,11 +12,13 @@ import subprocess
 
 import dicemath_mine_dices as dice
 
+
 class DiceNumber:
     def __init__(self, min, max) -> None:
         self.min = min
         self.max = max
         # self.min, self.max = 30, 30 # DEBUG
+
 
 class GameSettings:
     def __init__(self) -> None:
@@ -30,6 +32,7 @@ class GameSettings:
         self.canvas = {}
         self.dice = []
         self.dice_top_left_corners = []
+
 
     def run(self):
         if self.welcome_screen():
@@ -81,7 +84,7 @@ class GameSettings:
 
         return dice_top_left_corners
     
-    # TODO: create canvas a print canvas
+
     def create_canvas(self):
         self.clear_canvas()
         for pos, (sx, sy) in enumerate(self.dice_top_left_corners):
@@ -152,7 +155,6 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
         lower = self.get_limit('lower', 1, 7)
         upper = self.get_limit('upper', lower + 1, 8)
 
-        
         self.dice_number = DiceNumber(lower, upper)
 
 
@@ -177,6 +179,7 @@ Do you want to change these settings? type: 'y' or yes to change settings or Ent
             subprocess.run('cls')
         else:
             subprocess.run('clear')
+
 
     def clear_canvas(self):
         '''Clear canvas.'''
