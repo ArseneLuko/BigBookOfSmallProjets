@@ -201,13 +201,30 @@ class Match:
         return total_value
         
 
+    def ask_user(self) -> int:
+        '''Ask user for the sum of dice values. Check input and return an integer'''
+        
+        while True:
+            user_guess = input('What is the sum? > ')
+            if not user_guess.isdecimal() or int(user_guess) < 1:
+                print('Enter a whole positive number \033[2A')
+                print(' ' * self.game.canvas_width, end='\r')
+                continue
+            
+            return int(user_guess)
+    
+
     def play_game(self):
         while self.game.remaining_time > time():
             self.game.dice = random.choices(dice.ALL_DICE, k=random.randint(self.game.dice_number.min, self.game.dice_number.max))
             self.guess_value = self.sum_up_dice_values()
             self.game.dice_top_left_corners = self.game.distribute_dice(len(self.game.dice))
+
             self.game.create_canvas()
             self.game.print_canvas()
+            
+            self.user_guess = self.ask_user()
+            
             print(f'délka canvas: {len(self.game.canvas)}') # DEBUG
             input() # DEBUG
 
