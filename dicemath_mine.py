@@ -22,12 +22,12 @@ class DiceNumber:
 
 class GameSettings:
     def __init__(self) -> None:
+        self.check_terminal_size()
         self.game_duration = 30
         # self.game_duration = 300 # DEBUG
         self.dice_width = 9
         self.dice_height = 5
         self.dice_number = DiceNumber(2, 7)
-        # self.check_terminal_size() 
         self.canvas_width, self.canvas_height = self.set_dimensions(os.get_terminal_size().columns, os.get_terminal_size().lines)
         self.canvas = {}
         self.dice = []
@@ -116,9 +116,18 @@ class GameSettings:
 
 
     def check_terminal_size(self):
-        if (os.get_terminal_size().columns < 79 or 
-            os.get_terminal_size().lines < 24):
-            print(f'Please run the game in bigger terminal. Minimal dimensions are 79 characters width and 24 characters heigh.')
+        '''The method check terminal size and if one of two conditions 
+        is not met, the game will not run. 
+        First condition: a product of width and height must be greater than or 
+        equal to 1200, e. g. 60 columns times 20 lines equals 1200. 
+        Second condition:  Either width or height must be greater than 13.'''
+        self.clear_screen()
+        if (os.get_terminal_size().columns < 14 or 
+            os.get_terminal_size().lines < 14):
+            print(f'Please resize your terminal window. Minimal lenght of width or height is 14 characters.\nYour dimensions are: width: {os.get_terminal_size().columns} x height: {os.get_terminal_size().lines}')
+            sys.exit()
+        if (os.get_terminal_size().columns * os.get_terminal_size().lines < 1200):
+            print(f'Please resize your terminal window. A product of terminal window dimensions must be at least 1200. Eg. 60 columns times 20 lines = 1200')
             sys.exit()
 
 
@@ -126,13 +135,13 @@ class GameSettings:
         '''Welcome player and print initial settings. Ask player if they want to change and return True if so or False if they don't want do any changes.'''
 
         self.clear_screen()
-        print(f'''Welcome to play \'Dicemath\' game. 
+        print(f'Welcome to play \'Dicemath\' game.'.center(self.canvas_width), f'''
 I will roll the dice and you will try to sum up their values ASAP. You have a limited time to do so.
 Initial settings are: 
 Game time: {self.game_duration} seconds
 Number of dice: {self.dice_number.min} to {self.dice_number.max - 1} dice
               
-Do you want to change these settings? type: 'y' or yes to change settings or Enter to start play''')
+Do you want to change these settings? type: 'y' or 'yes' to change settings or press Enter to start play''')
         
         if input('> ').lower().startswith('y'):
             return True
@@ -211,6 +220,7 @@ class Match:
                 print(' ' * self.game.canvas_width, end='\r')
                 continue
             
+            print(' ' * self.game.canvas_width)
             return int(user_guess)
     
 
@@ -225,8 +235,8 @@ class Match:
             
             self.user_guess = self.ask_user()
             
-            print(f'délka canvas: {len(self.game.canvas)}') # DEBUG
-            input() # DEBUG
+            # print(f'délka canvas: {len(self.game.canvas)}') # DEBUG
+            # input() # DEBUG
 
         # create diceses
         # check if they don't overlap
