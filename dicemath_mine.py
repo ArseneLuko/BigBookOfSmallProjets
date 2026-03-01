@@ -17,17 +17,18 @@ class DiceNumber:
     def __init__(self, min, max) -> None:
         self.min = min
         self.max = max
-        # self.min, self.max = 30, 30 # DEBUG
 
 
 class GameSettings:
     def __init__(self) -> None:
         self.check_terminal_size()
         self.game_duration = 30
-        # self.game_duration = 300 # DEBUG
+        self.game_duration = 8 # DEBUG
         self.dice_width = 9
         self.dice_height = 5
         self.dice_number = DiceNumber(2, 7)
+        self.points_gain = 4
+        self.points_loose = -1
         self.canvas_width, self.canvas_height = self.set_dimensions(os.get_terminal_size().columns, os.get_terminal_size().lines)
         self.canvas = {}
         self.dice = []
@@ -41,14 +42,13 @@ class GameSettings:
         self.set_remaining_time()
         match = Match(self)
 
-        # after end show results
-        # do you want to play again? - all this in while Loop
+        # after end show results TODO
+        # do you want to play again? - all this in while Loop TODO
 
 
     def distribute_dice(self, dice_number):
         '''Create random coordinates for dice in self.dice. Checks their positions if they don't overlap and return a list of tuples of their top-left corners coordinates [(x, y),].'''
 
-        # dice_number = 1 # DEBUG
         dice_top_left_corners = []
         for _ in range(dice_number):
 
@@ -199,6 +199,10 @@ Do you want to change these settings? type: 'y' or 'yes' to change settings or p
 class Match:
     def __init__(self, game: GameSettings) -> None:
         self.game = game
+        self.total_matches = 0
+        self.correct_ans = 0
+        self.incorrect_ans = 0
+        self.points = 0
         self.play_game()
 
 
@@ -223,7 +227,31 @@ class Match:
             
             print(' ' * self.game.canvas_width)
             return int(user_guess)
+        
+
+    def rate_match(self):
+        '''Distribute points and count correct and incorrect guesses.'''
+        self.total_matches += 1
+        if self.guess_value == self.user_guess:
+            self.correct_ans += 1
+            self.points += self.game.points_gain
+        else:
+            self.incorrect_ans += 1
+            self.points += self.game.points_loose
+
     
+    def print_results(self):
+        '''Print results of a match.'''
+        label_lenght = 25
+
+        self.game.clear_screen()
+        print(f'== Game results =='.center(self.game.canvas_width),
+              f'\nTotal games: '.ljust(label_lenght, '.'),f'{self.total_matches:2}',
+              f'\nCorrect answears: '.ljust(label_lenght, '.'),f'{self.correct_ans:2}',
+              f'\nIncorrect answears: '.ljust(label_lenght, '.'),f'{self.incorrect_ans:2}',
+              ''
+              )
+
 
     def play_game(self):
         while self.game.remaining_time > time():
@@ -235,16 +263,12 @@ class Match:
             self.game.print_canvas()
             
             self.user_guess = self.ask_user()
-            
-            # print(f'délka canvas: {len(self.game.canvas)}') # DEBUG
-            # input() # DEBUG
+            self.rate_match()
 
-        # create diceses
-        # check if they don't overlap
-        # print them on screen
-        # let the player answer
-        # check for answer and manage points
+        self.print_results()
+
 
 if __name__ == '__main__':
     new_game = GameSettings()
     new_game.run()
+    pass
