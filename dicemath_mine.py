@@ -7,8 +7,8 @@ Player try to count sum of the dice in time."""
 import sys
 import os
 import random
-from time import time
 import subprocess
+from time import time
 
 import dicemath_mine_dices as dice
 
@@ -135,11 +135,12 @@ class GameSettings:
         '''Welcome player and print initial settings. Ask player if they want to change and return True if so or False if they don't want do any changes.'''
 
         self.clear_screen()
-        print(f'Welcome to play \'Dicemath\' game.'.center(self.canvas_width), f'''
-I will roll the dice and you will try to sum up their values ASAP. You have a limited time to do so.
+        print(f'== Welcome to play \'Dicemath\' game =='.center(self.canvas_width), f'''
+I will roll the dice and you will try to sum up their values as fast as you can. You have a limited time to do so.
+              
 Initial settings are: 
-Game time: {self.game_duration} seconds
-Number of dice: {self.dice_number.min} to {self.dice_number.max - 1} dice
+Game time: ........ {self.game_duration} seconds
+Number of dice: ... {self.dice_number.min} to {self.dice_number.max - 1} dice
               
 Do you want to change these settings? type: 'y' or 'yes' to change settings or press Enter to start play''')
         
@@ -153,13 +154,13 @@ Do you want to change these settings? type: 'y' or 'yes' to change settings or p
         '''Change game settings, time and number of dice.'''
 
         self.clear_screen()
-        print(' == Game Settings ==')
+        print(' == Game Settings =='.center(self.canvas_width))
         print('How much time you want to have to guess? Enter whole number in seconds, minimum 10, maximum 120.')
 
         self.game_duration = self.get_limit('time', 10, 120)
 
-        print(f' {'-' * self.canvas_width} ')
-        print('How many dice you want to play with? Enter whole numbers, first lower limit, second upper limit. (minimum 1, maximum 8)')
+        print(f'{'-' * self.canvas_width} ')
+        print('How many dice you want to play with? Enter whole numbers, first lower limit, second upper limit. (minimum 1, maximum 8 and the range must be at least 2)')
         
         lower = self.get_limit('lower', 1, 7)
         upper = self.get_limit('upper', lower + 1, 8)
