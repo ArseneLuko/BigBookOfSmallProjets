@@ -36,14 +36,19 @@ class GameSettings:
 
 
     def run(self):
-        if self.welcome_screen():
-            self.change_settings()
+        keep_playing = True
+        while keep_playing:
+            if self.welcome_screen():
+                self.change_settings()
 
-        self.set_remaining_time()
-        match = Match(self)
+            self.set_remaining_time()
+            match = Match(self)
 
-        # after end show results TODO
-        # do you want to play again? - all this in while Loop TODO
+            print('Do you want to play again? Type \'y\' or \'yes\' to play again.')
+            ask_continue = input('> ')
+            if not ask_continue.lower().startswith('y'):
+                print('Answer not recognized. Thanks for playing and see you next time.')
+                keep_playing = False
 
 
     def distribute_dice(self, dice_number):
