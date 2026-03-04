@@ -23,7 +23,6 @@ class GameSettings:
     def __init__(self) -> None:
         self.check_terminal_size()
         self.game_duration = 30
-        self.game_duration = 8 # DEBUG
         self.dice_width = 9
         self.dice_height = 5
         self.dice_number = DiceNumber(2, 7)
@@ -47,7 +46,7 @@ class GameSettings:
             print('Do you want to play again? Type \'y\' or \'yes\' to play again.')
             ask_continue = input('> ')
             if not ask_continue.lower().startswith('y'):
-                print('Answer not recognized. Thanks for playing and see you next time.')
+                print('Thanks for playing and see you next time.')
                 keep_playing = False
 
 
@@ -207,7 +206,7 @@ class Match:
         self.total_matches = 0
         self.correct_ans = 0
         self.incorrect_ans = 0
-        self.points = 0
+        self.total_points = 0
         self.play_game()
 
 
@@ -239,10 +238,10 @@ class Match:
         self.total_matches += 1
         if self.guess_value == self.user_guess:
             self.correct_ans += 1
-            self.points += self.game.points_gain
+            self.total_points += self.game.points_gain
         else:
             self.incorrect_ans += 1
-            self.points += self.game.points_loose
+            self.total_points += self.game.points_loose
 
     
     def print_results(self):
@@ -254,6 +253,8 @@ class Match:
               f'\nTotal games: '.ljust(label_lenght, '.'),f'{self.total_matches:2}',
               f'\nCorrect answears: '.ljust(label_lenght, '.'),f'{self.correct_ans:2}',
               f'\nIncorrect answears: '.ljust(label_lenght, '.'),f'{self.incorrect_ans:2}',
+              f'\n{'-' * label_lenght + '-' * 2}',
+              f'\nTotal points: '.ljust(label_lenght, '.'), f'{self.total_points:2}'            
               ''
               )
 
