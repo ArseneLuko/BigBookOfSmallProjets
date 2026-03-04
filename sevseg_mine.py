@@ -1,4 +1,4 @@
-def thousand_sep(number, number_str: str=None):
+def thousand_sep(number, number_str: str=''):
     """Prepare the number in string format to be added thousand separator.
     
     :param number: number int or float
@@ -125,7 +125,7 @@ def get_sev_seg_string(symbol: int | float, min_width: int=0, thousands_sep: boo
 
 
 if __name__ == "__main__":
-    fourty_two = get_sev_seg_string(1231451678.22345678, thousands_sep=True)
+    fourty_two = get_sev_seg_string(12314159265358.9793, thousands_sep=True)
     print(fourty_two)
     print()
     print("This script meant to be importet rather than run directly.")
