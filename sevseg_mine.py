@@ -7,20 +7,22 @@ def thousand_sep(number, number_str: str=''):
         number_str = str(number)
 
     if isinstance(number, float):
+        # reverse digits before the decimal point
+        # and when return revers them back
         before, after = number_str.split(".")
-        before_rev = before[::-1]
+        before_reverse = before[::-1]
 
-        new_before_rew = add_spaces(before_rev)
+        new_before_reverse = add_spaces(before_reverse)
         new_after = add_spaces(after)
 
-        result = new_before_rew[::-1] + '.' + new_after
+        result = new_before_reverse[::-1] + '.' + new_after
 
     else:
-        before_rev = number_str[::-1]
+        before_reverse = number_str[::-1]
 
-        new_before_rew = add_spaces(before_rev)
+        new_before_reverse = add_spaces(before_reverse)
 
-        result = new_before_rew[::-1]
+        result = new_before_reverse[::-1]
 
     return result
 
